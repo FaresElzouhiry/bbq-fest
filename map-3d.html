@@ -40,7 +40,7 @@
     var q = new URLSearchParams(location.search);
     var ui = MapUI.mount(document.getElementById('map'), {
       theme: q.get('theme') || 'sunset',
-      stage: q.has('stage') ? +q.get('stage') : 0,
+      stage: q.has('stage') ? +q.get('stage') : (q.has('walk') ? 2 : 0),
       embedded: false, autoRotate: true, intro: true,
       bookHref: function (info) {
         var m = 'model-1.html'; try { m = localStorage.getItem('bbq-model') || m; } catch (e) {}
@@ -48,9 +48,10 @@
       }
     });
     window.__ui = ui;
+    if (ui && q.has('walk')) setTimeout(function () { ui.f3d.setMode('walk'); }, 1500);
     setTimeout(function () { document.getElementById('loading').classList.add('off'); }, 500);
     // عرض تلقائي: الأرض ← المخطط ← المهرجان
-    if (ui && !q.has('stage')) {
+    if (ui && !q.has('stage') && !q.has('walk')) {
       var stop = false; document.getElementById('map').addEventListener('pointerdown', function () { stop = true; }, { once: true });
       setTimeout(function () { if (!stop) ui.f3d.setStage(1); }, 4200);
       setTimeout(function () { if (!stop) ui.f3d.setStage(2); }, 8200);

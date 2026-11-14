@@ -10,6 +10,7 @@
     home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>',
     shot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
     full: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+    walk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="2"/><path d="M13 8l-3 4 3 3v6M10 12l-3 1M13 8l4 3 2-1M10 16l-2 5"/></svg>',
     tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>'
   };
   var STEPS = [
@@ -40,6 +41,10 @@
       b.addEventListener('click', function () { f3d.setTheme(t[0]); syncTheme(); }); themes.appendChild(b);
     });
     function syncTheme() { [].forEach.call(themes.children, function (b) { b.classList.toggle('on', b.dataset.theme === f3d.getTheme()); }); }
+    var bWalk = el('button', 'mapui-walk', ICON.walk + '<span>تجوّل داخل المهرجان</span>'); bWalk.type = 'button'; bWalk.title = 'امشِ داخل المهرجان';
+    bWalk.addEventListener('click', function () { f3d.setMode(f3d.getMode() === 'walk' ? 'orbit' : 'walk'); }); right.appendChild(bWalk);
+    var touch = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || ('ontouchstart' in window);
+    function syncMode(m) { root.dataset.mode = m; bWalk.classList.toggle('on', m === 'walk'); bWalk.lastChild.textContent = m === 'walk' ? 'خروج من التجوّل ✕' : 'تجوّل داخل المهرجان'; syncStage(f3d.getStage()); }
     if (opts.tools) {
       var tools = el('div', 'mapui-tools'); right.appendChild(tools);
       var bHome = el('button', 'mapui-tool', ICON.home); bHome.type = 'button'; bHome.title = 'المنظر العام'; bHome.addEventListener('click', function () { f3d.flyTo('home'); setZone(null); }); tools.appendChild(bHome);
@@ -82,9 +87,10 @@
       });
     }
 
-    function syncStage(n) { [].forEach.call(steps.children, function (b, i) { b.classList.toggle('on', i === n); b.classList.toggle('done', i < n); b.setAttribute('aria-selected', i === n ? 'true' : 'false'); }); hint.textContent = STEPS[n].h; root.dataset.stage = n; if (n === 0) { f3d.select(null); } }
-    f3d.on('stage', syncStage).on('select', showCard).on('filter', syncFilter);
+    function syncStage(n) { [].forEach.call(steps.children, function (b, i) { b.classList.toggle('on', i === n); b.classList.toggle('done', i < n); b.setAttribute('aria-selected', i === n ? 'true' : 'false'); }); hint.textContent = f3d.getMode() === 'walk' ? (touch ? 'حرّك بعصا التحكم للمشي · اسحب الشاشة للنظر حولك · اضغط على الخريطة المصغّرة للانتقال.' : 'اضغط على المشهد ثم حرّك الماوس للنظر مثل الألعاب · W A S D للمشي · Shift للجري · ضغطة لاختيار جناح · Esc لتحرير الماوس · اضغط على الخريطة المصغّرة للانتقال.') : STEPS[n].h; root.dataset.stage = n; if (n === 0) { f3d.select(null); } }
+    f3d.on('stage', syncStage).on('select', showCard).on('filter', syncFilter).on('mode', syncMode);
     syncStage(f3d.getStage()); syncTheme(); syncFilter(null);
+    root.dataset.mode = f3d.getMode();
     return { f3d: f3d, root: root, setZone: setZone };
   }
   window.MapUI = { mount: mount };
