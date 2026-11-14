@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BBQ FEST — مهرجان الشواء | الرياض</title>
+<meta name="description" content="BBQ FEST: خمسة أيام من الشواء والطهي الحي والمسابقات والترفيه في الرياض. احجز جناحك أو باقة رعايتك.">
+<meta name="theme-color" content="#f3ead9">
+<link rel="icon" href="assets/logo-dark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Almarai:wght@400;700;800&family=Anton&family=Rakkas&family=Tajawal:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/mapui.css">
+<link rel="stylesheet" href="css/model-2.css">
+</head>
+<body>
+
+<div class="ribbon"><span data-bind="dateLabel"></span> · <span data-bind="location"></span></div>
+<header class="top" data-header>
+  <a class="top-logo" href="#hero"><img src="assets/logo-dark.png" alt="BBQ FEST"></a>
+  <nav class="top-nav" data-nav>
+    <a href="#about">الحكاية</a>
+    <a href="#experience">التجربة</a>
+    <a href="#map">المخطط</a>
+    <a href="#menu">قائمة الباقات</a>
+    <a href="#sponsor">لماذا ترعى؟</a>
+    <a href="#location">الموقع</a>
+  </nav>
+  <a class="btn btn-main top-cta" href="#booking">احجز جناحك</a>
+  <button class="top-burger" data-nav-toggle aria-label="القائمة"><i></i><i></i></button>
+</header>
+
+<main>
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-in">
+    <div class="hero-text">
+      <p class="over">مهرجان الشواء والطهي في الهواء الطلق</p>
+      <h1>نحن <em>نشوي</em><br>وأنت <span>تستمتع</span></h1>
+      <p class="hero-lead">خمسة أيام تجمع عشاق الشواء، والطهاة، والعلامات التجارية والعائلات في وجهة واحدة — طهي حي، تذوق، مسابقات، وترفيه.</p>
+      <div class="hero-cta">
+        <a class="btn btn-main" href="#menu">قائمة الباقات والأسعار</a>
+        <a class="btn" href="#map">شاهد المخطط 3D</a>
+      </div>
+      <div class="hero-count" data-render="countdown"></div>
+    </div>
+    <div class="hero-art">
+      <div class="stamp" aria-hidden="true">
+        <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#circ">WE GRILL · YOU CHILL · WE GRILL · YOU CHILL · </textPath></text></svg>
+        <b>5</b><span>أيام</span>
+      </div>
+      <img class="hero-logo" src="assets/logo-dark.png" alt="BBQ FEST">
+      <img class="hero-grill" src="assets/grill.png" alt="">
+      <img class="hero-ticket" src="assets/ticket.png" alt="">
+    </div>
+  </div>
+  <div class="hero-scene"><img src="assets/scene-b.png" alt="تصوّر لأجواء المهرجان"></div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="band">
+  <div class="wrap stats" data-render="stats"></div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="sec" id="about">
+  <div class="wrap about-grid">
+    <div class="polaroids" data-reveal>
+      <figure class="pola p1"><img src="assets/zones.jpg" alt="" loading="lazy"><figcaption>طهي حي</figcaption></figure>
+      <figure class="pola p2"><img src="assets/stage-sunset.jpg" alt="" loading="lazy"><figcaption>أمسيات المسرح</figcaption></figure>
+      <figure class="pola p3"><img src="assets/trucks-night.jpg" alt="" loading="lazy"><figcaption>عربات الطعام</figcaption></figure>
+    </div>
+    <div data-reveal>
+      <p class="label">الحكاية</p>
+      <h2>الشواء ليس طريقة طهي فقط.. <em>إنه تقليد يجمع الناس</em></h2>
+      <p class="lead">BBQ FEST مهرجان متخصص في الشواء والطهي في المساحات المفتوحة، يجمع عشاق الشواء والطهاة والعارضين والمتخصصين في قطاع الطعام، والعلامات التجارية والعائلات، ضمن تجربة تفاعلية بين الطعام والترفيه والاكتشاف.</p>
+      <p>على مدار خمسة أيام: عروض طهي حية، تجارب تذوق، مسابقات، ورش عمل، وتفعيلات للعلامات التجارية تخلق مساحة مباشرة للتفاعل بين الجمهور والمشاركين والرعاة.</p>
+      <ul class="ticks" data-render="program"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section class="sec kraft" id="experience">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="label">التجربة</p>
+      <h2>عالم متكامل من <em>النكهات</em> والتجارب والترفيه</h2>
+    </header>
+    <div class="exp-list" data-render="experiences"></div>
+  </div>
+</section>
+
+<!-- ===== MAP ===== -->
+<section class="sec" id="map">
+  <div class="wrap">
+    <header class="sec-head center" data-reveal>
+      <p class="label">مخطط المهرجان</p>
+      <h2>من <em>أرض فاضية</em> إلى مهرجان كامل</h2>
+      <p class="lead">ثلاث خطوات: الأرض قبل البناء، ثم المخطط مفروشًا عليها، ثم المهرجان مجسّمًا. اضغط على أي جناح لمعرفة مساحته وقيمته.</p>
+    </header>
+  </div>
+  <div class="map-board" data-reveal>
+    <i class="tapec t1"></i><i class="tapec t2"></i>
+    <div class="map-frame" data-map data-theme="day" data-stage="2"></div>
+  </div>
+  <p class="map-more"><a href="map-3d.html">فتح المخطط في صفحة كاملة ↗</a></p>
+</section>
+
+<!-- ===== MENU / PACKAGES ===== -->
+<section class="sec kraft" id="menu">
+  <div class="wrap">
+    <header class="sec-head center" data-reveal>
+      <p class="label">قائمة الباقات</p>
+      <h2>اختر <em>طبقك</em> من قائمة الرعاية</h2>
+      <p class="lead">من الشراكة البلاتينية إلى الكشك — باقات صُممت لمنح علامتك مستويات مختلفة من الحضور والظهور والتفاعل.</p>
+    </header>
+    <div class="menu-card" data-reveal>
+      <div class="menu-head"><span>الباقة</span><span>المساحة</span><span>القيمة (ر.س)</span></div>
+      <table><tbody data-render="pricelist"></tbody></table>
+      <p class="menu-note">تختلف المزايا والمساحات ونقاط الظهور وفق كل باقة — التفاصيل في البطاقات أدناه.</p>
+    </div>
+    <div class="pkg-grid" data-render="packages"></div>
+  </div>
+</section>
+
+<!-- ===== WHY ===== -->
+<section class="sec" id="sponsor">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="label">لماذا ترعى BBQ FEST؟</p>
+      <h2>شراكة تضع علامتك <em>في قلب التجربة</em></h2>
+    </header>
+    <ul class="why-grid" data-render="why"></ul>
+    <div class="aud" data-reveal>
+      <h3>من ستقابل في المهرجان؟</h3>
+      <ul class="aud-grid" data-render="audience"></ul>
+    </div>
+    <div class="gov" data-reveal>
+      <img src="assets/gov-booth.png" alt="" loading="lazy">
+      <div>
+        <h3>دعم حكومي قوي</h3>
+        <p>تدعم الفعالية جهتان حكوميتان بارزتان: هيئة فنون الطهي امتدادًا لدورها في دعم قطاع فنون الطهي وتمكين المواهب والمنشآت، وهيئة تنمية الصادرات السعودية لدعم المنتجات والعلامات الوطنية وتعزيز وصولها إلى الأسواق.</p>
+        <h3 class="mt">قطاعات مستهدفة</h3>
+        <ul class="chips" data-render="sectors"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section class="sec kraft" id="gallery">
+  <div class="wrap">
+    <header class="sec-head center" data-reveal>
+      <p class="label">تصميم المهرجان</p>
+      <h2>حضور متكامل للعلامة <em>عبر رحلة الزائر</em></h2>
+    </header>
+    <div class="gal-grid" data-render="gallery"></div>
+  </div>
+</section>
+
+<!-- ===== LOCATION ===== -->
+<section class="sec" id="location">
+  <div class="wrap loc-grid">
+    <div data-reveal>
+      <p class="label">الموقع</p>
+      <h2><em>مجمع نجد</em> — الرياض</h2>
+      <p class="lead">على بُعد 10 دقائق من مترو الرياض. منطقة رئيسية بمساحة نحو 10,000 م² صُممت كوجهة فعاليات متكاملة.</p>
+      <dl class="facts">
+        <div><dt>التاريخ</dt><dd data-bind="dateLabel"></dd></div>
+        <div><dt>المدة</dt><dd>5 أيام</dd></div>
+        <div><dt>الزوار المستهدفون</dt><dd>+10,000 يوميًا</dd></div>
+      </dl>
+    </div>
+    <figure class="pola big" data-reveal><img src="assets/location.jpg" alt="موقع المهرجان" loading="lazy"><figcaption>مجمع نجد · الرياض</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===== BOOKING ===== -->
+<section class="sec booking" id="booking">
+  <div class="wrap book-grid">
+    <div data-reveal>
+      <p class="label light">بون الطلب</p>
+      <h2>جاهز <em>تولّع</em> علامتك؟</h2>
+      <p class="lead">املأ الطلب وسيتواصل معك فريق الرعايات. اختر جناحك من المخطط وسيُضاف رقمه تلقائيًا.</p>
+      <img class="book-art" src="assets/signpost.png" alt="" loading="lazy">
+    </div>
+    <div class="slip" data-reveal>
+      <div class="slip-head"><b>طلب مشاركة</b><span>BBQ FEST</span></div>
+      <div data-render="booking"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <img class="foot-logo" src="assets/logo-dark.png" alt="BBQ FEST">
+    <p class="foot-slogan">WE GRILL . YOU CHILL</p>
+    <div class="foot-via"><span>إدارة الرعايات والشراكات</span><img src="assets/via-navy.png" alt="VIA"><a href="https://via-saudi.com" target="_blank" rel="noopener">via-saudi.com</a></div>
+  </div>
+  <p class="foot-copy">© BBQ FEST · <a href="index.html">تغيير التصميم</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="js/data.js"></script>
+<script src="js/festival3d.js"></script>
+<script src="js/mapui.js"></script>
+<script src="js/site.js"></script>
+<script>BBQSite.init({ model: 'model-2.html' });</script>
+</body>
+</html>

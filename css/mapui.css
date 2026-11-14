@@ -1,0 +1,90 @@
+/* واجهة المخطط ثلاثي الأبعاد — يتغير شكلها عبر المتغيرات --mu-* في كل موديل */
+.mapui {
+  --mu-bg: rgba(16, 13, 13, .78);
+  --mu-fg: #f5efe6;
+  --mu-dim: rgba(245, 239, 230, .62);
+  --mu-line: rgba(255, 255, 255, .14);
+  --mu-accent: #e5261f;
+  --mu-on: #fff;
+  --mu-radius: 14px;
+  --mu-font: inherit;
+  --mu-blur: 12px;
+  position: relative; overflow: hidden; background: #0c0a0a; color: var(--mu-fg); font-family: var(--mu-font);
+  isolation: isolate; user-select: none; -webkit-user-select: none;
+}
+.mapui-canvas { position: absolute; inset: 0; }
+.mapui button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+.mapui svg { width: 18px; height: 18px; flex: none; }
+
+.mapui-top { position: absolute; inset: 14px 14px auto 14px; display: flex; gap: 10px; justify-content: space-between; align-items: flex-start; pointer-events: none; z-index: 3; }
+.mapui-top > * { pointer-events: auto; }
+.mapui-steps, .mapui-themes, .mapui-tools, .mapui-filters, .mapui-zones, .mapui-card, .mapui-hint {
+  background: var(--mu-bg); border: 1px solid var(--mu-line); border-radius: var(--mu-radius);
+  -webkit-backdrop-filter: blur(var(--mu-blur)); backdrop-filter: blur(var(--mu-blur));
+}
+.mapui-steps { display: flex; padding: 5px; gap: 4px; }
+.mapui-step { display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: calc(var(--mu-radius) - 5px); color: var(--mu-dim); font-weight: 700; font-size: 14px; white-space: nowrap; transition: background .25s, color .25s; }
+.mapui-step i { font-style: normal; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 13px; line-height: 1; }
+.mapui-step:hover { color: var(--mu-fg); }
+.mapui-step.done { color: var(--mu-fg); }
+.mapui-step.on { background: var(--mu-accent); color: var(--mu-on); }
+.mapui-step.on i { background: var(--mu-on); color: var(--mu-accent); border-color: var(--mu-on); }
+
+.mapui-right { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.mapui-themes, .mapui-tools { display: flex; padding: 5px; gap: 2px; }
+.mapui-theme, .mapui-tool { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: calc(var(--mu-radius) - 5px); color: var(--mu-dim); font-size: 13px; font-weight: 700; transition: background .2s, color .2s; }
+.mapui-theme:hover, .mapui-tool:hover { color: var(--mu-fg); background: rgba(128, 128, 128, .18); }
+.mapui-theme.on { background: var(--mu-fg); color: #151212; }
+.mapui-tool.on { color: var(--mu-accent); }
+
+.mapui-hint { position: absolute; top: 72px; inset-inline-start: 14px; max-width: min(430px, calc(100% - 28px)); padding: 8px 14px; font-size: 13px; line-height: 1.6; color: var(--mu-dim); z-index: 2; pointer-events: none; }
+
+.mapui-filters { position: absolute; inset-inline-start: 14px; top: 124px; display: flex; flex-direction: column; padding: 6px; gap: 2px; z-index: 2; max-height: calc(100% - 200px); overflow: auto; }
+.mapui-chip { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: calc(var(--mu-radius) - 6px); font-size: 13px; font-weight: 700; color: var(--mu-dim); text-align: start; transition: background .2s, color .2s; }
+.mapui-chip i { width: 12px; height: 12px; border-radius: 3px; flex: none; box-shadow: 0 0 0 1px rgba(0, 0, 0, .25); }
+.mapui-chip span { flex: 1; white-space: nowrap; }
+.mapui-chip em { font-style: normal; font-size: 11px; opacity: .7; font-variant-numeric: tabular-nums; }
+.mapui-chip:hover { color: var(--mu-fg); background: rgba(128, 128, 128, .18); }
+.mapui-chip.on { background: var(--mu-fg); color: #151212; }
+
+.mapui-zones { position: absolute; inset: auto 14px 14px 14px; display: flex; align-items: center; gap: 4px; padding: 6px; overflow-x: auto; scrollbar-width: none; z-index: 2; width: fit-content; max-width: calc(100% - 28px); margin-inline: auto; }
+.mapui-zones::-webkit-scrollbar { display: none; }
+.mapui-zones-label { font-size: 12px; font-weight: 800; padding-inline: 8px 4px; color: var(--mu-accent); white-space: nowrap; }
+.mapui-zone { padding: 7px 12px; border-radius: calc(var(--mu-radius) - 6px); font-size: 13px; font-weight: 700; color: var(--mu-dim); white-space: nowrap; transition: background .2s, color .2s; }
+.mapui-zone:hover { color: var(--mu-fg); background: rgba(128, 128, 128, .18); }
+.mapui-zone.on { background: var(--mu-accent); color: var(--mu-on); }
+
+.mapui-card { position: absolute; inset-inline-end: 14px; bottom: 74px; width: 270px; padding: 18px; z-index: 4; animation: mapui-in .3s cubic-bezier(.2, .9, .3, 1.2); }
+.mapui-card[hidden] { display: none; }
+@keyframes mapui-in { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+.mapui-card-x { position: absolute; top: 8px; inset-inline-end: 10px; font-size: 22px !important; line-height: 1; color: var(--mu-dim) !important; padding: 4px 8px; }
+.mapui-card-tag { display: inline-block; font-size: 26px; font-weight: 900; line-height: 1.1; padding-inline-start: 12px; border-inline-start: 6px solid var(--c, var(--mu-accent)); letter-spacing: .5px; }
+.mapui-card h4 { margin: 8px 0 12px; font-size: 15px; font-weight: 800; }
+.mapui-card h4 small { display: block; font-size: 11px; font-weight: 600; color: var(--mu-dim); letter-spacing: 1px; text-transform: uppercase; direction: ltr; text-align: end; }
+.mapui-card dl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 10px; }
+.mapui-card dl div { border: 1px solid var(--mu-line); border-radius: 10px; padding: 8px 10px; }
+.mapui-card dt { font-size: 11px; color: var(--mu-dim); }
+.mapui-card dd { margin: 2px 0 0; font-size: 16px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.mapui-card dd small { font-size: 11px; font-weight: 700; opacity: .7; }
+.mapui-card p { margin: 0 0 10px; font-size: 12px; color: var(--mu-dim); }
+.mapui-book { display: block; text-align: center; text-decoration: none; background: var(--mu-accent); color: var(--mu-on); font-weight: 800; font-size: 14px; padding: 11px; border-radius: calc(var(--mu-radius) - 4px); transition: filter .2s, transform .2s; }
+.mapui-book:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
+.mapui--fallback .mapui-canvas img { display: block; }
+
+@media (max-width: 860px) {
+  .mapui-top { inset: 10px 10px auto 10px; flex-direction: column; align-items: stretch; }
+  .mapui-steps { justify-content: stretch; }
+  .mapui-step { flex: 0 0 auto; justify-content: center; padding: 8px 10px; font-size: 13px; gap: 6px; }
+  .mapui-step.on { flex: 1; }
+  .mapui-step:not(.on) span { display: none; }
+  .mapui-step i { width: 20px; height: 20px; font-size: 11px; }
+  .mapui-right { justify-content: space-between; }
+  .mapui-theme span { display: none; }
+  .mapui-hint { display: none; }
+  .mapui-filters { top: auto; bottom: 62px; inset-inline: 10px; flex-direction: row; overflow-x: auto; max-height: none; scrollbar-width: none; }
+  .mapui-filters::-webkit-scrollbar { display: none; }
+  .mapui-chip { padding: 6px 9px; }
+  .mapui-zones { inset: auto 10px 10px 10px; }
+  .mapui-card { inset-inline: 10px; width: auto; bottom: 116px; }
+}
