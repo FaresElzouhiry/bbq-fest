@@ -119,14 +119,23 @@
 
     // المخطط
     var ui = null, mapEl = $('[data-map]');
-    function mountMap() { if (ui || !mapEl || !window.MapUI) return ui; ui = window.MapUI.mount(mapEl, Object.assign({ theme: mapEl.getAttribute('data-theme') || 'sunset', stage: +(mapEl.getAttribute('data-stage') || 2), embedded: true }, o.map || {})); api.ui = ui; if (o.onMap) o.onMap(ui); return ui; }
+    var soonDone = false;
+    function mountMap() {
+      if (D.map3dSoon) {
+        if (soonDone || !mapEl) return null; soonDone = true; document.documentElement.classList.add('map-soon');
+        var stl = document.createElement('style'); stl.textContent = '.map-soon .pkg-map,.map-soon .map-more,.map-soon [data-explore],.map-soon #exploreBtn,.map-soon .rail{display:none!important}.soon3d{position:relative;display:grid;place-items:center;overflow:hidden;background:#0d0c0e;color:#fff;text-align:center}.soon3d img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.32) blur(3px);transform:scale(1.05)}.soon3d div{position:relative;padding:24px}.soon3d b{display:inline-block;font:400 clamp(26px,4.5vw,54px)/1.1 Anton,Impact,sans-serif;letter-spacing:5px;background:#e5261f;padding:10px 30px;border-radius:999px}.soon3d p{margin:16px 0 0;font-size:18px;font-weight:700;color:#fff}.soon3d-badge{position:fixed;z-index:60;bottom:16px;left:50%;transform:translateX(-50%);font:400 14px Anton,Impact,sans-serif;letter-spacing:3px;background:#e5261f;color:#fff;padding:6px 20px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.5);white-space:nowrap}'; document.head.appendChild(stl);
+        if (mapEl.classList.contains('bg3d')) { var bd = document.createElement('div'); bd.className = 'soon3d-badge'; bd.textContent = '3D TOUR · AVAILABLE SOON'; document.body.appendChild(bd); }
+        else { mapEl.classList.add('soon3d'); mapEl.innerHTML = '<img src="assets/layout-map.jpg" alt=""><div><b>AVAILABLE SOON</b><p>المخطط ثلاثي الأبعاد — قريبًا</p></div>'; }
+        if (o.onMap) o.onMap(null); return null;
+      }
+      if (ui || !mapEl || !window.MapUI) return ui; ui = window.MapUI.mount(mapEl, Object.assign({ theme: mapEl.getAttribute('data-theme') || 'sunset', stage: +(mapEl.getAttribute('data-stage') || 2), embedded: true }, o.map || {})); api.ui = ui; if (o.onMap) o.onMap(ui); return ui; }
     if (mapEl) {
       if (o.eagerMap || !('IntersectionObserver' in window)) mountMap();
       else { var mo = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { mo.disconnect(); mountMap(); } }, { rootMargin: '500px' }); mo.observe(mapEl); }
     }
     document.addEventListener('click', function (ev) {
       var m = ev.target.closest('.pkg-map,[data-zone-go]');
-      if (m) { ev.preventDefault(); var u = mountMap(); goto(o.mapId || 'map'); if (u) setTimeout(function () { u.f3d.setStage(2); u.f3d.filter(m.getAttribute('data-filter') || null); u.f3d.flyTo(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); u.setZone(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); }, 500); return; }
+      if (m) { ev.preventDefault(); if (D.map3dSoon) return; var u = mountMap(); goto(o.mapId || 'map'); if (u) setTimeout(function () { u.f3d.setStage(2); u.f3d.filter(m.getAttribute('data-filter') || null); u.f3d.flyTo(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); u.setZone(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); }, 500); return; }
       var b = ev.target.closest('[data-book]'); if (b) prefill(b.getAttribute('data-book'), '');
     });
     window.addEventListener('bbq:book', function (ev) { prefill(ev.detail.type, ev.detail.id); goto('booking'); });
