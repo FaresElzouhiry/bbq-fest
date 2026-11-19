@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BBQ FEST — اختر تصميم الموقع</title>
+<link rel="icon" href="assets/logo-light.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lalezar&family=Rakkas&family=Readex+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0d0c0e; --ink: #f3f0ea; --dim: #a09da6; --line: rgba(255, 255, 255, .12); --red: #e5261f; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 300 16px/1.8 'Readex Pro', 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  .wrap { width: min(1280px, calc(100% - 40px)); margin-inline: auto; padding: clamp(28px, 5vw, 64px) 0; }
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(24px, 4vw, 48px); }
+  header img { height: 84px; }
+  h1 { font: 700 clamp(28px, 4vw, 46px)/1.25 'Readex Pro'; margin: 0; letter-spacing: -.5px; }
+  header p { margin: 6px 0 0; color: var(--dim); max-width: 560px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .m { display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: #151418; transition: transform .35s cubic-bezier(.2, .8, .2, 1), border-color .3s, box-shadow .3s; }
+  .m:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, .45); box-shadow: 0 40px 80px -40px #000; }
+  .thumb { position: relative; aspect-ratio: 4/3; overflow: hidden; isolation: isolate; }
+  .thumb > * { position: absolute; }
+  .m .thumb::after { content: 'فتح الموديل ←'; position: absolute; inset: auto 14px 14px auto; z-index: 5; font: 600 13px 'Readex Pro'; background: #fff; color: #111; padding: 4px 14px; border-radius: 999px; opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .3s; }
+  .m:hover .thumb::after { opacity: 1; transform: none; }
+  .body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .no { font: 400 13px Anton; letter-spacing: 3px; color: var(--dim); }
+  .m h2 { margin: 0; font: 700 24px/1.3 'Readex Pro'; }
+  .m p { margin: 0; color: var(--dim); font-size: 14.5px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 12px; }
+  .tags span { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; color: #d5d2da; }
+
+  /* 1 */
+  .t1 { background: #0a0808 url(assets/bg-lines.jpg) center/cover; }
+  .t1 .lg { width: 46%; inset-inline-start: 7%; top: 16%; }
+  .t1 .gr { width: 56%; inset-inline-end: -4%; bottom: -6%; filter: drop-shadow(0 20px 40px rgba(229, 38, 31, .5)); transition: transform .6s; }
+  .m:hover .t1 .gr { transform: translateY(-8px) rotate(-3deg); }
+  .t1 .sl { inset-inline-start: 7%; top: 60%; font: 400 clamp(14px, 1.6vw, 22px) Anton; letter-spacing: 2px; direction: ltr; }
+  .t1 .bt { inset-inline-start: 7%; top: 76%; background: var(--red); border-radius: 999px; padding: 2px 16px; font: 700 12px 'Readex Pro'; }
+  /* 2 */
+  .t2 { background: #f4ebda; color: #1c1512; }
+  .t2 .hd { inset-inline-start: 7%; top: 12%; font: 400 clamp(30px, 4vw, 58px)/1.1 Rakkas; }
+  .t2 .hd em { font-style: normal; color: #c9211b; }
+  .t2 .lg { width: 34%; inset-inline-end: 6%; top: 8%; transform: rotate(5deg); }
+  .t2 .sc { width: 130%; max-width: none; left: -15%; bottom: 0; }
+  .t2 .band { inset: auto 0 0 0; height: 16%; background: #c9211b; z-index: -1; }
+  .t2 .st { inset-inline-start: 8%; top: 52%; width: 62px; height: 62px; border: 2px solid #c9211b; border-radius: 50%; color: #c9211b; display: grid; place-items: center; font: 400 26px 'Alfa Slab One', Anton; transform: rotate(-12deg); transition: transform .6s; }
+  .m:hover .t2 .st { transform: rotate(348deg); }
+  /* 3 */
+  .t3 { background: #000 url(assets/stage-sunset.jpg) center/cover; }
+  .t3::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 8, 10, .5), transparent 40%, rgba(8, 8, 10, .7)); }
+  .t3 .gl { inset-inline-start: 6%; top: 22%; width: 44%; padding: 12px 14px; border-radius: 14px; background: rgba(12, 11, 14, .62); border: 1px solid rgba(255, 255, 255, .18); backdrop-filter: blur(10px); font-size: 12px; line-height: 1.6; transition: transform .6s; }
+  .m:hover .t3 .gl { transform: translateY(-10px); }
+  .t3 .gl b { display: block; font: 700 15px 'Readex Pro'; }
+  .t3 .gl i { display: block; font: 400 11px 'Readex Pro'; color: #ff8a3c; font-style: normal; }
+  .t3 .dots { left: 5%; top: 30%; display: grid; gap: 6px; }
+  .t3 .dots s { width: 7px; height: 7px; border-radius: 50%; border: 1px solid #fff; display: block; } .t3 .dots s:nth-child(3) { background: #ff4d2e; border-color: #ff4d2e; }
+  .t3 .lg { width: 20%; inset-inline-end: 5%; top: 6%; }
+
+  .map { margin-top: 20px; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 0; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; text-decoration: none; color: inherit; background: #151418; transition: border-color .3s, transform .35s; }
+  .map:hover { border-color: rgba(255, 255, 255, .45); transform: translateY(-4px); }
+  .map img { width: 100%; height: 100%; max-height: 300px; object-fit: cover; }
+  .map div { padding: 26px 32px; }
+  .map h2 { margin: 0 0 6px; font: 700 26px/1.3 'Readex Pro'; }
+  .map p { margin: 0; color: var(--dim); }
+  .map b { display: inline-block; margin-top: 14px; font-weight: 600; color: #ff8a3c; }
+  .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; } .steps span { font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 0 12px; }
+  .map.soon { cursor: default; position: relative; } .map.soon:hover { transform: none; border-color: var(--line); } .map.soon img { filter: grayscale(1) brightness(.45); }
+  .map.soon::before { content: "AVAILABLE SOON"; position: absolute; top: 18px; inset-inline-start: 18px; z-index: 2; font: 400 15px Anton; letter-spacing: 3px; background: var(--red); color: #fff; padding: 4px 16px; border-radius: 999px; }
+  .map .soon-badge { color: #fff; background: rgba(255,255,255,.1); border: 1px solid var(--line); padding: 4px 16px; border-radius: 999px; font-size: 13px; letter-spacing: 1px; }
+  footer { margin-top: 30px; color: var(--dim); font-size: 13px; text-align: center; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .map { grid-template-columns: 1fr; } header img { height: 60px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>اختر تصميم موقع BBQ FEST</h1>
+      <p>ثلاثة موديلات مختلفة بنفس المحتوى ونفس المخطط ثلاثي الأبعاد. افتح كل واحد وجرّبه ثم اختر الأنسب.</p>
+    </div>
+    <img src="assets/logo-light.png" alt="BBQ FEST">
+  </header>
+
+  <div class="grid">
+    <a class="m" href="model-1.html">
+      <div class="thumb t1"><img class="lg" src="assets/logo-light.png" alt=""><span class="sl">WE GRILL . YOU CHILL</span><span class="bt">احجز جناحك</span><img class="gr" src="assets/grill.png" alt=""></div>
+      <div class="body"><span class="no">MODEL 01</span><h2>جمر — سينمائي داكن</h2><p>نفس هوية العرض التقديمي: أسود وأحمر وخطوط اللهب، عناوين عريضة، ومخطط ليلي مضيء. الأقرب لهوية BBQ FEST الحالية.</p><div class="tags"><span>داكن</span><span>جريء</span><span>مخطط ليلي</span></div></div>
+    </a>
+    <a class="m" href="model-2.html">
+      <div class="thumb t2"><i class="band"></i><span class="hd">نحن <em>نشوي</em><br>وأنت تستمتع</span><img class="lg" src="assets/logo-dark.png" alt=""><span class="st">5</span><img class="sc" src="assets/scene-b.png" alt=""></div>
+      <div class="body"><span class="no">MODEL 02</span><h2>ورق الجزّار — فاتح مطبوع</h2><p>خلفية ورقية دافئة، أختام وتذاكر وصور بولارويد، وقائمة أسعار على شكل «منيو». ودود وعائلي ومناسب للجمهور العام.</p><div class="tags"><span>فاتح</span><span>مرح</span><span>قائمة أسعار</span><span>مخطط نهاري</span></div></div>
+    </a>
+    <a class="m" href="model-3.html">
+      <div class="thumb t3"><div class="dots"><s></s><s></s><s></s><s></s><s></s></div><div class="gl"><i>٠٣ — البناء</i><b>وهكذا يصبح مهرجانًا</b>الكاميرا تتنقل بين المناطق مع التمرير</div><img class="lg" src="assets/logo-light.png" alt=""></div>
+      <div class="body"><span class="no">MODEL 03</span><h2>الجولة — ثلاثي الأبعاد بالكامل</h2><p>المشهد الثلاثي يملأ الشاشة، ومع التمرير تتحول الأرض الفاضية إلى مهرجان وتطير الكاميرا من منطقة لأخرى. الأكثر إبهارًا للرعاة.</p><div class="tags"><span>تفاعلي</span><span>جولة بالتمرير</span><span>استكشاف حر</span></div></div>
+    </a>
+  </div>
+
+  <a class="map" href="map-3d.html">
+    <img src="assets/layout-map.jpg" alt="مخطط المهرجان">
+    <div>
+      <h2>المخطط ثلاثي الأبعاد — صفحة مستقلة</h2>
+      <p>المشهد الكامل بدون الموقع: مناسب للعرض على شاشة أو لالتقاط صور للمخطط من أي زاوية.</p>
+      <div class="steps"><span>١ الأرض الفاضية</span><span>٢ المخطط على الأرض</span><span>٣ المهرجان مجسّمًا</span></div>
+      <b>فتح المخطط ↗</b>
+    </div>
+  </a>
+  <footer>BBQ FEST · WE GRILL . YOU CHILL</footer>
+</div>
+</body>
+</html>

@@ -3,111 +3,298 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BBQ FEST — اختر تصميم الموقع</title>
+<title>BBQ FEST — جولة ثلاثية الأبعاد | الرياض</title>
+<meta name="description" content="جولة ثلاثية الأبعاد داخل BBQ FEST: من الأرض الفاضية إلى المهرجان الكامل. استكشف الأجنحة واحجز مكانك.">
+<meta name="theme-color" content="#08080a">
 <link rel="icon" href="assets/logo-light.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lalezar&family=Rakkas&family=Readex+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root { --bg: #0d0c0e; --ink: #f3f0ea; --dim: #a09da6; --line: rgba(255, 255, 255, .12); --red: #e5261f; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 300 16px/1.8 'Readex Pro', 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-  .wrap { width: min(1280px, calc(100% - 40px)); margin-inline: auto; padding: clamp(28px, 5vw, 64px) 0; }
-  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(24px, 4vw, 48px); }
-  header img { height: 84px; }
-  h1 { font: 700 clamp(28px, 4vw, 46px)/1.25 'Readex Pro'; margin: 0; letter-spacing: -.5px; }
-  header p { margin: 6px 0 0; color: var(--dim); max-width: 560px; }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .m { display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: #151418; transition: transform .35s cubic-bezier(.2, .8, .2, 1), border-color .3s, box-shadow .3s; }
-  .m:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, .45); box-shadow: 0 40px 80px -40px #000; }
-  .thumb { position: relative; aspect-ratio: 4/3; overflow: hidden; isolation: isolate; }
-  .thumb > * { position: absolute; }
-  .m .thumb::after { content: 'فتح الموديل ←'; position: absolute; inset: auto 14px 14px auto; z-index: 5; font: 600 13px 'Readex Pro'; background: #fff; color: #111; padding: 4px 14px; border-radius: 999px; opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .3s; }
-  .m:hover .thumb::after { opacity: 1; transform: none; }
-  .body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .no { font: 400 13px Anton; letter-spacing: 3px; color: var(--dim); }
-  .m h2 { margin: 0; font: 700 24px/1.3 'Readex Pro'; }
-  .m p { margin: 0; color: var(--dim); font-size: 14.5px; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 12px; }
-  .tags span { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; color: #d5d2da; }
-
-  /* 1 */
-  .t1 { background: #0a0808 url(assets/bg-lines.jpg) center/cover; }
-  .t1 .lg { width: 46%; inset-inline-start: 7%; top: 16%; }
-  .t1 .gr { width: 56%; inset-inline-end: -4%; bottom: -6%; filter: drop-shadow(0 20px 40px rgba(229, 38, 31, .5)); transition: transform .6s; }
-  .m:hover .t1 .gr { transform: translateY(-8px) rotate(-3deg); }
-  .t1 .sl { inset-inline-start: 7%; top: 60%; font: 400 clamp(14px, 1.6vw, 22px) Anton; letter-spacing: 2px; direction: ltr; }
-  .t1 .bt { inset-inline-start: 7%; top: 76%; background: var(--red); border-radius: 999px; padding: 2px 16px; font: 700 12px 'Readex Pro'; }
-  /* 2 */
-  .t2 { background: #f4ebda; color: #1c1512; }
-  .t2 .hd { inset-inline-start: 7%; top: 12%; font: 400 clamp(30px, 4vw, 58px)/1.1 Rakkas; }
-  .t2 .hd em { font-style: normal; color: #c9211b; }
-  .t2 .lg { width: 34%; inset-inline-end: 6%; top: 8%; transform: rotate(5deg); }
-  .t2 .sc { width: 130%; max-width: none; left: -15%; bottom: 0; }
-  .t2 .band { inset: auto 0 0 0; height: 16%; background: #c9211b; z-index: -1; }
-  .t2 .st { inset-inline-start: 8%; top: 52%; width: 62px; height: 62px; border: 2px solid #c9211b; border-radius: 50%; color: #c9211b; display: grid; place-items: center; font: 400 26px 'Alfa Slab One', Anton; transform: rotate(-12deg); transition: transform .6s; }
-  .m:hover .t2 .st { transform: rotate(348deg); }
-  /* 3 */
-  .t3 { background: #000 url(assets/stage-sunset.jpg) center/cover; }
-  .t3::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 8, 10, .5), transparent 40%, rgba(8, 8, 10, .7)); }
-  .t3 .gl { inset-inline-start: 6%; top: 22%; width: 44%; padding: 12px 14px; border-radius: 14px; background: rgba(12, 11, 14, .62); border: 1px solid rgba(255, 255, 255, .18); backdrop-filter: blur(10px); font-size: 12px; line-height: 1.6; transition: transform .6s; }
-  .m:hover .t3 .gl { transform: translateY(-10px); }
-  .t3 .gl b { display: block; font: 700 15px 'Readex Pro'; }
-  .t3 .gl i { display: block; font: 400 11px 'Readex Pro'; color: #ff8a3c; font-style: normal; }
-  .t3 .dots { left: 5%; top: 30%; display: grid; gap: 6px; }
-  .t3 .dots s { width: 7px; height: 7px; border-radius: 50%; border: 1px solid #fff; display: block; } .t3 .dots s:nth-child(3) { background: #ff4d2e; border-color: #ff4d2e; }
-  .t3 .lg { width: 20%; inset-inline-end: 5%; top: 6%; }
-
-  .map { margin-top: 20px; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 0; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; text-decoration: none; color: inherit; background: #151418; transition: border-color .3s, transform .35s; }
-  .map:hover { border-color: rgba(255, 255, 255, .45); transform: translateY(-4px); }
-  .map img { width: 100%; height: 100%; max-height: 300px; object-fit: cover; }
-  .map div { padding: 26px 32px; }
-  .map h2 { margin: 0 0 6px; font: 700 26px/1.3 'Readex Pro'; }
-  .map p { margin: 0; color: var(--dim); }
-  .map b { display: inline-block; margin-top: 14px; font-weight: 600; color: #ff8a3c; }
-  .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; } .steps span { font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 0 12px; }
-  .map.soon { cursor: default; position: relative; } .map.soon:hover { transform: none; border-color: var(--line); } .map.soon img { filter: grayscale(1) brightness(.45); }
-  .map.soon::before { content: "AVAILABLE SOON"; position: absolute; top: 18px; inset-inline-start: 18px; z-index: 2; font: 400 15px Anton; letter-spacing: 3px; background: var(--red); color: #fff; padding: 4px 16px; border-radius: 999px; }
-  .map .soon-badge { color: #fff; background: rgba(255,255,255,.1); border: 1px solid var(--line); padding: 4px 16px; border-radius: 999px; font-size: 13px; letter-spacing: 1px; }
-  footer { margin-top: 30px; color: var(--dim); font-size: 13px; text-align: center; }
-  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .map { grid-template-columns: 1fr; } header img { height: 60px; } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Readex+Pro:wght@300;400;500;600;700&family=Tajawal:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/mapui.css">
+<link rel="stylesheet" href="css/model-3.css">
 </head>
-<body>
-<div class="wrap">
-  <header>
-    <div>
-      <h1>اختر تصميم موقع BBQ FEST</h1>
-      <p>ثلاثة موديلات مختلفة بنفس المحتوى ونفس المخطط ثلاثي الأبعاد. افتح كل واحد وجرّبه ثم اختر الأنسب.</p>
-    </div>
-    <img src="assets/logo-light.png" alt="BBQ FEST">
-  </header>
+<body class="story">
 
-  <div class="grid">
-    <a class="m" href="model-1.html">
-      <div class="thumb t1"><img class="lg" src="assets/logo-light.png" alt=""><span class="sl">WE GRILL . YOU CHILL</span><span class="bt">احجز جناحك</span><img class="gr" src="assets/grill.png" alt=""></div>
-      <div class="body"><span class="no">MODEL 01</span><h2>جمر — سينمائي داكن</h2><p>نفس هوية العرض التقديمي: أسود وأحمر وخطوط اللهب، عناوين عريضة، ومخطط ليلي مضيء. الأقرب لهوية BBQ FEST الحالية.</p><div class="tags"><span>داكن</span><span>جريء</span><span>مخطط ليلي</span></div></div>
-    </a>
-    <a class="m" href="model-2.html">
-      <div class="thumb t2"><i class="band"></i><span class="hd">نحن <em>نشوي</em><br>وأنت تستمتع</span><img class="lg" src="assets/logo-dark.png" alt=""><span class="st">5</span><img class="sc" src="assets/scene-b.png" alt=""></div>
-      <div class="body"><span class="no">MODEL 02</span><h2>ورق الجزّار — فاتح مطبوع</h2><p>خلفية ورقية دافئة، أختام وتذاكر وصور بولارويد، وقائمة أسعار على شكل «منيو». ودود وعائلي ومناسب للجمهور العام.</p><div class="tags"><span>فاتح</span><span>مرح</span><span>قائمة أسعار</span><span>مخطط نهاري</span></div></div>
-    </a>
-    <a class="m" href="model-3.html">
-      <div class="thumb t3"><div class="dots"><s></s><s></s><s></s><s></s><s></s></div><div class="gl"><i>٠٣ — البناء</i><b>وهكذا يصبح مهرجانًا</b>الكاميرا تتنقل بين المناطق مع التمرير</div><img class="lg" src="assets/logo-light.png" alt=""></div>
-      <div class="body"><span class="no">MODEL 03</span><h2>الجولة — ثلاثي الأبعاد بالكامل</h2><p>المشهد الثلاثي يملأ الشاشة، ومع التمرير تتحول الأرض الفاضية إلى مهرجان وتطير الكاميرا من منطقة لأخرى. الأكثر إبهارًا للرعاة.</p><div class="tags"><span>تفاعلي</span><span>جولة بالتمرير</span><span>استكشاف حر</span></div></div>
-    </a>
+<div id="bg" class="bg3d" data-map data-theme="sunset" data-stage="2"></div>
+<div class="veil" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar-logo" href="#top"><img src="assets/logo-light.png" alt="BBQ FEST"></a>
+  <p class="bar-chapter"><span id="chapNo">00</span><b id="chapName">BBQ FEST</b></p>
+  <div class="bar-actions">
+    <button type="button" class="btn btn-glass" id="exploreBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg><span>استكشف بحرية</span></button>
+    <a class="btn btn-main" href="#booking">احجز</a>
   </div>
+</header>
+<button type="button" class="exit" id="exitBtn">← العودة للجولة</button>
+<nav class="rail" id="rail" aria-label="فصول الجولة"></nav>
 
-  <a class="map" href="map-3d.html">
-    <img src="assets/layout-map.jpg" alt="مخطط المهرجان">
-    <div>
-      <h2>المخطط ثلاثي الأبعاد — صفحة مستقلة</h2>
-      <p>المشهد الكامل بدون الموقع: مناسب للعرض على شاشة أو لالتقاط صور للمخطط من أي زاوية.</p>
-      <div class="steps"><span>١ الأرض الفاضية</span><span>٢ المخطط على الأرض</span><span>٣ المهرجان مجسّمًا</span></div>
-      <b>فتح المخطط ↗</b>
+<main class="chapters" id="top">
+
+  <section class="chap chap-hero" data-stage="2" data-theme="sunset" data-cam="home" data-title="BBQ FEST">
+    <div class="hero-card">
+      <div class="hero-brand">
+        <h1><img src="assets/logo-light.png" alt="BBQ FEST"></h1>
+        <p class="slogan">WE GRILL . YOU CHILL</p>
+      </div>
+      <div class="hero-info">
+        <p class="pill"><i></i><span data-bind="dateLabel"></span> · الرياض</p>
+        <p class="hero-lead">مهرجان الشواء والطهي في الهواء الطلق. مرّر للأسفل وشاهد الأرض الفاضية تتحول إلى مهرجان كامل — ثم اختر مكان علامتك فيه.</p>
+        <div class="hero-row">
+          <div class="hero-count" data-render="countdown"></div>
+          <div class="hero-cta">
+            <a class="btn btn-main" href="#c-land">ابدأ الجولة ↓</a>
+            <a class="btn btn-glass" href="#packages">الباقات والأسعار</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </a>
-  <footer>BBQ FEST · WE GRILL . YOU CHILL</footer>
+    <span class="scroll-hint" aria-hidden="true"><i></i>مرّر</span>
+  </section>
+
+  <section class="chap" id="c-land" data-stage="0" data-theme="day" data-cam="home" data-title="الأرض الفاضية">
+    <article class="card">
+      <p class="step">٠١ — البداية</p>
+      <h2>أرض فاضية في مجمع نجد</h2>
+      <p>نحو 10,000 م² على بُعد 10 دقائق من مترو الرياض. خطوط المسّاح تحدد الأرض الرئيسية وشارع العارضين — من هنا يبدأ كل شيء.</p>
+      <dl class="mini"><div><dt>الأرض الرئيسية</dt><dd>97 × 82 م</dd></div><div><dt>شارع العارضين</dt><dd>144 م</dd></div></dl>
+    </article>
+  </section>
+
+  <section class="chap" data-side="end" data-stage="1" data-theme="day" data-cam="home" data-title="المخطط على الأرض">
+    <article class="card">
+      <p class="step">٠٢ — التخطيط</p>
+      <h2>المخطط مفروش على الأرض</h2>
+      <p>رحلة زائر واضحة: بوابة، منطقة تفعيل، مسرح، مسابقات، وأجنحة بست فئات — كل لون فئة.</p>
+      <ul class="legend" id="legend"></ul>
+    </article>
+  </section>
+
+  <section class="chap" data-stage="2" data-theme="sunset" data-cam="home" data-title="المهرجان مجسّمًا">
+    <article class="card">
+      <p class="step">٠٣ — البناء</p>
+      <h2>وهكذا يصبح مهرجانًا</h2>
+      <p>خمسة أيام من عروض الطهي الحية، التذوق، المسابقات، والترفيه — تجمع الجمهور والطهاة والعلامات التجارية.</p>
+      <div class="stats" data-render="stats"></div>
+    </article>
+  </section>
+
+  <section class="chap" data-side="end" data-stage="2" data-theme="sunset" data-cam="gate" data-title="بوابة الدخول">
+    <article class="card">
+      <img class="card-img" src="assets/gate-render.jpg" alt="بوابة الدخول" loading="lazy">
+      <p class="step">Main Gate</p>
+      <h2>بوابة الدخول</h2>
+      <p>نقطة الاستقبال الأولى للزوار، وإحدى أبرز مساحات الظهور للعلامات التجارية منذ لحظة الدخول.</p>
+    </article>
+  </section>
+
+  <section class="chap" data-stage="2" data-theme="sunset" data-cam="exhibitor" data-title="شارع العارضين">
+    <article class="card">
+      <img class="card-img" src="assets/exhibitor-a.jpg" alt="جناح العارض" loading="lazy">
+      <p class="step">Exhibitor Zone</p>
+      <h2>شارع العارضين</h2>
+      <p>خمسون جناحًا على جانبي جزيرة النخيل، وثمانية وثلاثون كشكًا على امتداد الشارع.</p>
+      <ul class="prices">
+        <li><span><b>جناح العارض</b> 3 × 4 م · 50 جناحًا</span><em>35,000 <small>ر.س</small></em></li>
+        <li><span><b>الكشك</b> 3 × 2 م · 38 كشكًا</span><em>17,000 <small>ر.س</small></em></li>
+      </ul>
+      <a class="btn btn-main sm" href="#booking" data-book="E">اطلب جناح عارض</a>
+    </article>
+  </section>
+
+  <section class="chap" data-side="end" data-stage="2" data-theme="sunset" data-cam="silver" data-title="الفضي والبرونزي">
+    <article class="card">
+      <img class="card-img" src="assets/silver-a.jpg" alt="الجناح الفضي" loading="lazy">
+      <p class="step">Silver &amp; Bronze</p>
+      <h2>المنطقتان الفضية والبرونزية</h2>
+      <p>أجنحة عرض وبيع مباشرة بجوار عربات الطعام، مع ظهور الشعار على لوحات الرعاة المشتركة.</p>
+      <ul class="prices">
+        <li><span><b>الفضي</b> 3 × 6 م · 15 جناحًا</span><em>100,000 <small>ر.س</small></em></li>
+        <li><span><b>البرونزي</b> 5 × 4 م · 10 أجنحة</span><em>65,000 <small>ر.س</small></em></li>
+      </ul>
+      <a class="btn btn-main sm" href="#booking" data-book="S">اطلب جناحًا فضيًا</a>
+    </article>
+  </section>
+
+  <section class="chap" data-stage="2" data-theme="sunset" data-cam="gold" data-title="الذهبي والماسي">
+    <article class="card">
+      <img class="card-img" src="assets/diamond-a.jpg" alt="الجناح الماسي" loading="lazy">
+      <p class="step">Gold &amp; Diamond</p>
+      <h2>قلب المهرجان: الذهبي والماسي</h2>
+      <p>أجنحة الدبل ديك الماسية تتوسط المنطقة، يحيط بها صفّان من الأجنحة الذهبية.</p>
+      <ul class="prices">
+        <li><span><b>الماسي</b> Double Deck 6 × 12 م · 5 أجنحة</span><em>350,000 <small>ر.س</small></em></li>
+        <li><span><b>الذهبي</b> 6 × 6 م · 12 جناحًا</span><em>250,000 <small>ر.س</small></em></li>
+      </ul>
+      <a class="btn btn-main sm" href="#booking" data-book="D">اطلب جناحًا ماسيًا</a>
+    </article>
+  </section>
+
+  <section class="chap" data-side="end" data-stage="2" data-theme="night" data-cam="stage" data-title="المسرح الرئيسي">
+    <article class="card">
+      <img class="card-img" src="assets/stage-render.jpg" alt="المسرح الرئيسي" loading="lazy">
+      <p class="step">Main Stage · 20 × 8 م</p>
+      <h2>حين يحلّ الليل.. يشتعل المسرح</h2>
+      <p>مركز العروض والإعلانات وأبرز فقرات البرنامج. الراعي البلاتيني يظهر على خلفية المسرح وشاشات LED، مع منطقة VIP خاصة بمساحة 200 م².</p>
+      <ul class="prices"><li><span><b>الراعي البلاتيني</b> حصري</span><em>500,000 <small>ر.س</small></em></li></ul>
+      <a class="btn btn-main sm" href="#booking" data-book="PLAT">اطلب الرعاية البلاتينية</a>
+    </article>
+  </section>
+
+  <section class="chap" data-stage="2" data-theme="night" data-cam="comp" data-title="منطقة المسابقات">
+    <article class="card">
+      <img class="card-img" src="assets/competition-c.jpg" alt="منطقة المسابقات" loading="lazy">
+      <p class="step">Competition Area · 12 × 12 م</p>
+      <h2>منطقة المسابقات</h2>
+      <p>منافسات طهي حية بمشاركة طهاة محترفين — اربط علامتك بأكثر تجارب المهرجان حماسًا.</p>
+      <ul class="prices"><li><span><b>راعي منطقة المسابقات</b> حصري</span><em>350,000 <small>ر.س</small></em></li></ul>
+      <a class="btn btn-main sm" href="#booking" data-book="COMP">اطلب رعاية المسابقات</a>
+    </article>
+  </section>
+
+  <section class="chap" data-side="end" data-stage="2" data-theme="night" data-cam="trucks" data-title="عربات الطعام">
+    <article class="card">
+      <img class="card-img" src="assets/trucks-night.jpg" alt="عربات الطعام" loading="lazy">
+      <p class="step">Food Trucks</p>
+      <h2>عربات الطعام والجلسات</h2>
+      <p>ثلاث مناطق لعربات الطعام مع جلسات خارجية، وفوقها يحلّق منطاد المهرجان.</p>
+    </article>
+  </section>
+
+  <section class="chap chap-end" data-stage="2" data-theme="sunset" data-cam="home" data-title="اختر مكانك">
+    <article class="card wide">
+      <p class="step">الخطوة التالية</p>
+      <h2>جاهز تختار مكان علامتك؟</h2>
+      <p>تجوّل في المخطط بحرية، اضغط على أي جناح لمعرفة تفاصيله، واطلب حجزه مباشرة.</p>
+      <div class="hero-cta"><button type="button" class="btn btn-main" data-explore>استكشف المخطط بحرية</button><a class="btn btn-glass" href="#packages">شاهد كل الباقات</a></div>
+    </article>
+  </section>
+</main>
+
+<div class="solid">
+  <section class="sec" id="experience">
+    <div class="wrap">
+      <header class="sec-head" data-reveal><p class="step">التجربة</p><h2>عالم متكامل من النكهات والتجارب والترفيه</h2></header>
+      <div class="exp-grid" data-render="experiences"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="packages">
+    <div class="wrap">
+      <header class="sec-head" data-reveal><p class="step">باقات الرعاية والأجنحة</p><h2>اختر مستوى حضورك</h2><p class="lead">من الشراكات الرئيسية ذات الانتشار الواسع إلى المساحات المخصصة للعارضين.</p></header>
+      <div class="pkg-grid" data-render="packages"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="sponsor">
+    <div class="wrap">
+      <header class="sec-head" data-reveal><p class="step">لماذا ترعى BBQ FEST؟</p><h2>شراكة تضع علامتك في قلب التجربة</h2></header>
+      <ul class="why-grid" data-render="why"></ul>
+      <div class="gov" data-reveal>
+        <div><h3>دعم حكومي قوي</h3><p>تدعم الفعالية جهتان حكوميتان بارزتان: هيئة فنون الطهي، وهيئة تنمية الصادرات السعودية — ما يضاعف الأثر المتوقع من رعاية المهرجان.</p><ul class="chips" data-render="sectors"></ul></div>
+        <img src="assets/gov-logos.png" alt="هيئة فنون الطهي — هيئة تنمية الصادرات السعودية" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="booking">
+    <div class="wrap book-grid">
+      <div data-reveal>
+        <p class="step">احجز الآن</p>
+        <h2>ضع علامتك على الخريطة</h2>
+        <p class="lead">اختر الباقة، أو حدّد جناحك من المخطط ثلاثي الأبعاد وسيُضاف رقمه تلقائيًا.</p>
+        <dl class="mini"><div><dt>التاريخ</dt><dd data-bind="dateLabel"></dd></div><div><dt>الموقع</dt><dd>مجمع نجد — الرياض</dd></div></dl>
+        <button type="button" class="btn btn-glass" data-explore>اختر جناحك من المخطط</button>
+      </div>
+      <div class="book-box" data-render="booking" data-reveal></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <img class="foot-logo" src="assets/logo-light.png" alt="BBQ FEST">
+      <p class="foot-slogan">WE GRILL . YOU CHILL</p>
+      <div class="foot-via"><span>إدارة الرعايات والشراكات</span><img src="assets/via-white.png" alt="VIA"><a href="https://via-saudi.com" target="_blank" rel="noopener">via-saudi.com</a></div>
+    </div>
+    <p class="foot-copy">© BBQ FEST · <a href="index.html">تغيير التصميم</a></p>
+  </footer>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="js/data.js"></script>
+<script src="js/festival3d.js"></script>
+<script src="js/mapui.js"></script>
+<script src="js/site.js"></script>
+<script>
+(function () {
+  var D = window.BBQ, body = document.body, f3d = null, active = null, exploring = false;
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return [].slice.call(document.querySelectorAll(s)); }
+
+  // مفتاح الفئات
+  var counts = {}; D.booths.forEach(function (b) { counts[b.type] = (counts[b.type] || 0) + 1; });
+  $('#legend').innerHTML = D.typeOrder.map(function (k) { var t = D.types[k]; return '<li><i style="background:' + t.color + '"></i><b>' + t.ar + '</b><span>' + t.size + '</span><em>' + counts[k] + '</em></li>'; }).join('');
+
+  // شريط الفصول
+  var chaps = $$('.chap'), rail = $('#rail');
+  chaps.forEach(function (c, i) {
+    var b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<span>' + c.getAttribute('data-title') + '</span>';
+    b.addEventListener('click', function () { c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }); rail.appendChild(b);
+  });
+
+  function shiftFor(c) {
+    if (innerWidth < 760) return [0, c.classList.contains('chap-hero') ? 0.14 : 0.2];
+    if (c.classList.contains('chap-hero')) return [0, 0.15];
+    if (c.classList.contains('chap-end')) return [0, 0];
+    return [c.getAttribute('data-side') === 'end' ? -0.15 : 0.15, 0];
+  }
+  function apply(c) {
+    if (!f3d || exploring) return;
+    var s = shiftFor(c); f3d.setShift(s[0], s[1]);
+    f3d.setStage(+c.getAttribute('data-stage')); f3d.setTheme(c.getAttribute('data-theme')); f3d.filter(null); f3d.select(null);
+    f3d.flyTo(c.getAttribute('data-cam'), 2.4);
+  }
+  function activate(c) {
+    if (active === c) return; active = c; var i = chaps.indexOf(c);
+    chaps.forEach(function (x) { x.classList.toggle('on', x === c); });
+    [].forEach.call(rail.children, function (b, k) { b.classList.toggle('on', k === i); });
+    $('#chapNo').textContent = (i < 10 ? '0' : '') + i; $('#chapName').textContent = c.getAttribute('data-title');
+    apply(c);
+  }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) activate(e.target); }); }, { rootMargin: '-48% 0px -48% 0px' });
+  chaps.forEach(function (c) { io.observe(c); });
+
+  // وضع الاستكشاف الحر
+  function explore(on, o) {
+    exploring = on; body.classList.toggle('story', !on); body.classList.toggle('explore', on);
+    document.documentElement.style.overflow = on ? 'hidden' : '';
+    if (!f3d) return;
+    f3d.setEmbedded(!on); f3d.setZoomLock(!on); f3d.setPaused(false); f3d.setLabels(on); if (on) f3d.setShift(0, 0);
+    if (on) { window.scrollTo(0, Math.min(window.scrollY, $('.chapters').offsetHeight - innerHeight)); f3d.setStage(2); f3d.filter((o && o.filter) || null); f3d.flyTo((o && o.zone) || 'home', 1.6); }
+    else if (active) { var c = active; active = null; activate(c); }
+  }
+  $('#exploreBtn').addEventListener('click', function () { explore(true); });
+  $('#exitBtn').addEventListener('click', function () { explore(false); });
+  document.addEventListener('click', function (ev) {
+    var x = ev.target.closest('[data-explore]'); if (x) { explore(true); return; }
+    var m = ev.target.closest('.pkg-map'); if (m) { ev.preventDefault(); ev.stopPropagation(); explore(true, { zone: m.getAttribute('data-zone'), filter: m.getAttribute('data-filter') }); }
+  }, true);
+  window.addEventListener('bbq:book', function () { if (exploring) explore(false); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && exploring) explore(false); });
+
+  BBQSite.init({
+    model: 'model-3.html', eagerMap: true,
+    map: { embedded: true, intro: true, autoRotate: true, orbitZones: true },
+    onMap: function (ui) {
+      if (!ui) { body.classList.add('no3d'); return; }
+      f3d = ui.f3d; f3d.setZoomLock(true); f3d.setLabels(false);
+      // أوقف الرسم عندما يغطي المحتوى المشهد
+      new IntersectionObserver(function (es) { if (!exploring) f3d.setPaused(!es[0].isIntersecting); }).observe($('.chapters'));
+      if (active) apply(active);
+    }
+  });
+})();
+</script>
 </body>
 </html>
