@@ -23,6 +23,13 @@
   .loading.off { opacity: 0; pointer-events: none; }
   .loading img { width: 150px; animation: pulse 1.4s ease-in-out infinite; }
   @keyframes pulse { 50% { opacity: .45; transform: scale(.97); } }
+  .desk-page { position: absolute; inset: 0; display: grid; align-items: end; padding: 16px; color: #f5efe6; }
+  .desk-page > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.55); }
+  .desk-box { position: relative; padding: 22px 20px; border-radius: 20px; background: rgba(16, 13, 13, .86); border: 1px solid rgba(255, 255, 255, .16); backdrop-filter: blur(12px); text-align: center; }
+  .desk-box svg { width: 46px; height: 46px; padding: 10px; border-radius: 14px; background: #e5261f; color: #fff; }
+  .desk-box b { display: block; margin-top: 10px; font-size: 19px; font-weight: 800; line-height: 1.5; }
+  .desk-box p { margin: 6px 0 16px; font-size: 14px; opacity: .75; line-height: 1.7; }
+  .desk-box a { display: inline-block; padding: 10px 22px; border-radius: 999px; background: #e5261f; color: #fff; text-decoration: none; font-weight: 800; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -38,6 +45,14 @@
 <script>
   (function () {
     var q = new URLSearchParams(location.search);
+    if (!BBQ.canRun3D()) {
+      // موبايل/تابلت: المخطط ثلاثي الأبعاد على الكمبيوتر فقط
+      document.getElementById('loading').classList.add('off');
+      document.getElementById('map').innerHTML = '<div class="desk-page"><img src="assets/layout-map.jpg" alt="مخطط المهرجان"><div class="desk-box">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>' +
+        '<b>' + BBQ.desktopOnlyMsg.t + '</b><p>' + BBQ.desktopOnlyMsg.d + '</p><a href="index.html">← الرجوع للموقع</a></div></div>';
+      return;
+    }
     var ui = MapUI.mount(document.getElementById('map'), {
       theme: q.get('theme') || 'sunset',
       stage: q.has('stage') ? +q.get('stage') : (q.has('walk') ? 2 : 0),

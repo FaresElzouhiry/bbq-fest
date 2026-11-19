@@ -202,7 +202,15 @@ p { color: #cfcdd4; }
 .foot-copy a { color: var(--acc2); }
 
 .no3d .bg3d { background: url(../assets/stage-sunset.jpg) center/cover; }
-.no3d [data-walk], .no3d .chap-walk { display: none !important; }
+.no3d .bg3d { transition: background-image .7s; }
+.no3d [data-walk] { display: none !important; }
+.no3d:not(.desk-only) .chap-walk { display: none !important; }
+.desk-only .walk-steps, .desk-only .walk-note { display: none; }
+.desk-only .walk-card .desk3d-msg { margin: 16px 0 0; }
+.hero-note { margin: 14px 0 0 !important; }
+@media (max-width: 760px) { .hero-note { padding: 10px 12px !important; gap: 10px !important; } .hero-note span { display: none !important; } .hero-note b { font-size: 14px !important; } .hero-note svg { width: 34px !important; height: 34px !important; padding: 7px !important; } .desk-only .hero-card { padding-top: 90px; } }
+.walk-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: 13px !important; color: var(--dim); }
+.walk-note svg { width: 18px; height: 18px; flex: none; color: var(--acc2); }
 
 /* الشريط العلوي فوق الأقسام المصمتة */
 .bar { transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }

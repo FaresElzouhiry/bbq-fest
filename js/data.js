@@ -180,8 +180,21 @@
 
   function fmt(n) { return Number(n).toLocaleString('en-US'); }
 
+  // المشهد ثلاثي الأبعاد يعمل على الكمبيوتر واللابتوب فقط.
+  // الموبايل والتابلت (شاشة لمس بدون ماوس) بيشوفوا صور ورسالة بدل المشهد.
+  // للتجربة على أي جهاز: أضف ?3d=1 للرابط، أو ?3d=0 لرؤية نسخة الموبايل على الكمبيوتر.
+  function canRun3D() {
+    if (!desktopOnly3D) return true;
+    try { var q = new URLSearchParams(location.search).get('3d'); if (q === '1') return true; if (q === '0') return false; } catch (e) {}
+    var mm = function (s) { return !!(window.matchMedia && window.matchMedia(s).matches); };
+    return !(mm('(pointer: coarse)') && !mm('(any-pointer: fine)'));
+  }
+  var desktopOnly3D = true; // اجعلها false لتشغيل الـ 3D على الموبايل كمان
+
   window.BBQ = {
     map3dSoon: false, // اجعلها false لإظهار المخطط ثلاثي الأبعاد داخل المواقع
+    canRun3D: canRun3D,
+    desktopOnlyMsg: { t: 'التجربة ثلاثية الأبعاد متاحة على الكمبيوتر أو اللابتوب فقط', d: 'افتح الرابط من جهاز كمبيوتر أو لابتوب لتتجوّل داخل المهرجان وتختار جناحك من المخطط.' },
     event: event, types: types, booths: booths, site: site, zones: zones, packages: packages,
     experiences: experiences, program: program, categories: categories, audience: audience,
     fmt: fmt, PX: PX, mx: mx, mz: mz,

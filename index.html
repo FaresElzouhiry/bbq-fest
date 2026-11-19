@@ -194,6 +194,7 @@
         <li><span>٣</span><b>انتقل بين المناطق</b><small>من الخريطة المصغّرة أو شريط المناطق</small></li>
       </ol>
       <button type="button" class="btn btn-main btn-lg" data-walk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="2"/><path d="M13 8l-3 4 3 3v6M10 12l-3 1M13 8l4 3 2-1M10 16l-2 5"/></svg>ابدأ التجوّل داخل المهرجان</button>
+      <p class="walk-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>التجوّل والمخطط ثلاثي الأبعاد متاحان على الكمبيوتر أو اللابتوب فقط</p>
     </article>
   </section>
 
@@ -290,7 +291,17 @@
     if (c.classList.contains('chap-end') || c.classList.contains('chap-walk')) return [0, 0];
     return [c.getAttribute('data-side') === 'end' ? -0.15 : 0.15, 0];
   }
+  // بدون 3D (موبايل/تابلت): صورة ثابتة خلف كل فصل بدل حركة الكاميرا
+  var BG = { home: 'overview.jpg', gate: 'gate-render.jpg', exhibitor: 'exhibitor-a.jpg', silver: 'silver-a.jpg', gold: 'diamond-a.jpg', stage: 'stage-render.jpg', comp: 'competition-c.jpg', trucks: 'trucks-night.jpg' };
+  function bgFor(c) {
+    if (c.classList.contains('chap-hero')) return 'stage-sunset.jpg';
+    var st = c.getAttribute('data-stage'); if (st === '0') return 'location.jpg'; if (st === '1') return 'layout-map.jpg';
+    return BG[c.getAttribute('data-cam')] || 'overview.jpg';
+  }
+  function applyStatic(c) { var bg = $('#bg'), u = 'url(assets/' + bgFor(c) + ')'; if (bg.dataset.img !== u) { bg.dataset.img = u; bg.style.backgroundImage = u; } }
+
   function apply(c) {
+    if (!f3d && body.classList.contains('no3d')) { applyStatic(c); return; }
     if (!f3d || exploring) return;
     var s = shiftFor(c); f3d.setShift(s[0], s[1]);
     f3d.setStage(+c.getAttribute('data-stage')); f3d.setTheme(c.getAttribute('data-theme')); f3d.filter(null); f3d.select(null);
@@ -308,6 +319,7 @@
 
   // وضع الاستكشاف الحر
   function explore(on, o) {
+    if (on && !f3d) return;
     exploring = on; body.classList.toggle('story', !on); body.classList.toggle('explore', on);
     document.documentElement.style.overflow = on ? 'hidden' : '';
     if (!f3d) return;
@@ -344,7 +356,17 @@
     model: 'index.html', eagerMap: true,
     map: { embedded: true, intro: true, autoRotate: true, orbitZones: true },
     onMap: function (ui) {
-      if (!ui) { body.classList.add('no3d'); return; }
+      if (!ui) {
+        body.classList.add('no3d');
+        // على الموبايل والتابلت: رسالة واضحة إن التجربة ثلاثية الأبعاد على الكمبيوتر فقط
+        if (!D.canRun3D()) {
+          body.classList.add('desk-only');
+          $('.hero-lead').insertAdjacentHTML('afterend', BBQSite.desktopNote('hero-note'));
+          $('.walk-card .btn-lg').insertAdjacentHTML('beforebegin', BBQSite.desktopNote());
+        }
+        if (active) applyStatic(active);
+        return;
+      }
       f3d = ui.f3d; f3d.setZoomLock(true); f3d.setLabels(false);
       f3d.on('mode', function (m) {
         body.classList.toggle('walking', m === 'walk');

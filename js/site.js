@@ -128,16 +128,27 @@
         else { mapEl.classList.add('soon3d'); mapEl.innerHTML = '<img src="assets/layout-map.jpg" alt=""><div><b>AVAILABLE SOON</b><p>المخطط ثلاثي الأبعاد — قريبًا</p></div>'; }
         if (o.onMap) o.onMap(null); return null;
       }
+      if (!D.canRun3D()) {
+        // موبايل/تابلت: لا نشغّل المشهد، ونعرض صورة المخطط ورسالة أنه متاح على الكمبيوتر فقط
+        if (soonDone || !mapEl) return null; soonDone = true; document.documentElement.classList.add('map-desktop');
+        var st = document.createElement('style'); st.textContent = '.map-desktop .pkg-map,.map-desktop .map-more,.map-desktop [data-zone-go],.map-desktop [data-explore],.map-desktop #exploreBtn,.map-desktop [data-walk],.map-desktop .rail{display:none!important}' +
+          '.desk3d{position:relative;display:grid;align-items:end;overflow:hidden;background:#0d0c0e;color:#fff;min-height:420px}.desk3d>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.desk3d::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(8,8,10,.92))}' +
+          '.desk3d-msg{position:relative;margin:16px;display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:18px;background:rgba(14,12,14,.82);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);text-align:start}' +
+          '.desk3d-msg svg{flex:none;width:40px;height:40px;padding:8px;border-radius:12px;background:#e5261f;color:#fff}.desk3d-msg b{display:block;font-size:16px;line-height:1.5}.desk3d-msg span{display:block;font-size:13px;opacity:.75;line-height:1.6;margin-top:2px}';
+        document.head.appendChild(st);
+        if (!mapEl.classList.contains('bg3d')) { mapEl.classList.add('desk3d'); mapEl.innerHTML = '<img src="assets/layout-map.jpg" alt="مخطط المهرجان">' + api.desktopNote(); }
+        if (o.onMap) o.onMap(null); return null;
+      }
       if (ui || !mapEl || !window.MapUI) return ui; ui = window.MapUI.mount(mapEl, Object.assign({ theme: mapEl.getAttribute('data-theme') || 'sunset', stage: +(mapEl.getAttribute('data-stage') || 2), embedded: true }, o.map || {})); api.ui = ui; if (o.onMap) o.onMap(ui); return ui; }
     if (mapEl) {
       // نؤجل بناء المشهد لما بعد أول رسم للصفحة حتى يظهر المحتوى فورًا
-      if (o.eagerMap) requestAnimationFrame(function () { setTimeout(mountMap, 30); });
+      if (o.eagerMap) setTimeout(mountMap, 80);
       else if (!('IntersectionObserver' in window)) mountMap();
       else { var mo = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { mo.disconnect(); mountMap(); } }, { rootMargin: '500px' }); mo.observe(mapEl); }
     }
     document.addEventListener('click', function (ev) {
       var m = ev.target.closest('.pkg-map,[data-zone-go]');
-      if (m) { ev.preventDefault(); if (D.map3dSoon) return; var u = mountMap(); goto(o.mapId || 'map'); if (u) setTimeout(function () { u.f3d.setStage(2); u.f3d.filter(m.getAttribute('data-filter') || null); u.f3d.flyTo(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); u.setZone(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); }, 500); return; }
+      if (m) { ev.preventDefault(); if (D.map3dSoon || !D.canRun3D()) return; var u = mountMap(); goto(o.mapId || 'map'); if (u) setTimeout(function () { u.f3d.setStage(2); u.f3d.filter(m.getAttribute('data-filter') || null); u.f3d.flyTo(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); u.setZone(m.getAttribute('data-zone') || m.getAttribute('data-zone-go')); }, 500); return; }
       var b = ev.target.closest('[data-book]'); if (b) prefill(b.getAttribute('data-book'), '');
     });
     window.addEventListener('bbq:book', function (ev) { prefill(ev.detail.type, ev.detail.id); goto('booking'); });
@@ -145,6 +156,8 @@
     if (q && D.booths.some(function (b) { return b.id === q; })) { var bt = D.booths.filter(function (b) { return b.id === q; })[0]; prefill(bt.type, bt.id); }
     return api;
   }
-  var api = { init: init, mountMap: null, ui: null, goto: goto };
+  var MONITOR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>';
+  function desktopNote(cls) { return '<div class="desk3d-msg' + (cls ? ' ' + cls : '') + '">' + MONITOR + '<div><b>' + D.desktopOnlyMsg.t + '</b><span>' + D.desktopOnlyMsg.d + '</span></div></div>'; }
+  var api = { init: init, mountMap: null, ui: null, goto: goto, desktopNote: desktopNote, monitorIcon: MONITOR };
   window.BBQSite = api;
 })();

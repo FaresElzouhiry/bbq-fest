@@ -41,7 +41,7 @@
     }
     var lowEnd = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || Math.min(window.screen.width, window.screen.height) < 700;
     var lite = lowEnd || opts.lite === true; if (opts.lite === false) lite = false;
-    var LQ = { dprMax: lite ? 1.25 : 2, dprMin: lite ? 0.75 : 1, shadow: lite ? 1024 : 4096, terrain: lite ? 80 : 230, skySeg: lite ? [24, 12] : [48, 24], aniso: lite ? 2 : 8, villaKeep: lite ? 3 : 1, people: lite ? 0.45 : 1, lights: lite ? 0 : 9, fps: lite ? 30 : 0, crowdEvery: 1, shadowEvery: lite ? 3 : 1 };
+    var LQ = { dprMax: lite ? 1.25 : 2, dprMin: lite ? 0.75 : 1, shadow: lite ? 1024 : 2048, terrain: lite ? 80 : 230, skySeg: lite ? [24, 12] : [48, 24], aniso: lite ? 2 : 8, villaKeep: lite ? 3 : 1, people: lite ? 0.45 : 1, lights: lite ? 0 : 9, fps: lite ? 30 : 0, crowdEvery: 1, shadowEvery: lite ? 3 : 1 };
     var PI = Math.PI, H = PI / 2;
 
     // ---------- أدوات هندسية ----------
@@ -955,6 +955,13 @@
       var snap = half * 2 / SM * 8; fx = Math.round(fx / snap) * snap; fz = Math.round(fz / snap) * snap;
       sun.target.position.set(fx, 0, fz); sun.position.set(fx + sunDir.x * 320, sunDir.y * 320, fz + sunDir.z * 320);
     }
+
+    // تجهيز كل الخامات مرة واحدة عند التحميل حتى لا يتجمّد المشهد أول مرة تظهر فيها مرحلة أو منطقة
+    (function precompile() {
+      var hidden = []; scene.traverse(function (o) { if (!o.visible) { hidden.push(o); o.visible = true; } });
+      try { renderer.compile(scene, camera); } catch (e) {}
+      hidden.forEach(function (o) { o.visible = false; });
+    })();
 
     // ---------- الحلقة ----------
     function now() { return performance.now(); }
