@@ -46,7 +46,7 @@ ul, ol { list-style: none; }
 .bar-chapter b { font-weight: 600; }
 .bar-actions { display: flex; gap: 8px; }
 .bar-actions .btn { padding: 9px 18px; font-size: 14px; }
-.explore .bar-chapter, .explore #exploreBtn { display: none; }
+.explore .bar-chapter, .explore #exploreBtn, .explore .bar [data-walk] { display: none; }
 .exit { position: fixed; z-index: 41; top: 14px; left: 50%; transform: translateX(-50%); display: none; padding: 9px 22px; border-radius: 999px; border: 1px solid var(--line); background: var(--ink); color: #111; font: 600 14px var(--body); cursor: pointer; box-shadow: 0 10px 30px rgba(0, 0, 0, .5); }
 .explore .exit { display: block; }
 
@@ -96,7 +96,7 @@ p { color: #cfcdd4; }
 .prices small { font: 500 11px var(--body); color: var(--dim); }
 
 /* HERO */
-.hero-card { pointer-events: auto; width: 100%; display: grid; grid-template-columns: auto minmax(0, 560px); justify-content: space-between; align-items: end; gap: 40px; padding: 140px clamp(18px, 6vw, 96px) 64px; background: linear-gradient(180deg, transparent, rgba(8, 8, 10, .78) 52%, rgba(8, 8, 10, .96)); animation: rise 1.1s cubic-bezier(.2, .8, .2, 1) .3s both; }
+.hero-card { pointer-events: auto; width: 100%; display: grid; grid-template-columns: auto minmax(0, 560px); justify-content: space-between; align-items: end; gap: 40px; padding: 140px clamp(18px, 6vw, 96px) 64px; background: linear-gradient(180deg, transparent, rgba(8, 8, 10, .78) 52%, rgba(8, 8, 10, .96)); animation: rise .9s cubic-bezier(.2, .8, .2, 1) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(40px); } }
 .pill { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; font-size: 14px; padding: 5px 16px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(12px); }
 .pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 12px var(--acc); animation: blink 1.6s infinite; }
@@ -202,9 +202,78 @@ p { color: #cfcdd4; }
 .foot-copy a { color: var(--acc2); }
 
 .no3d .bg3d { background: url(../assets/stage-sunset.jpg) center/cover; }
+.no3d [data-walk], .no3d .chap-walk { display: none !important; }
+
+/* الشريط العلوي فوق الأقسام المصمتة */
+.bar { transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+.past .bar { background: rgba(8, 8, 10, .86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+.past .bar-logo img { height: 38px; }
+
+/* زر التجوّل */
+.btn-walk { background: rgba(255, 77, 46, .16); border-color: rgba(255, 138, 60, .75); color: #fff; position: relative; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.btn-walk:hover { background: rgba(255, 77, 46, .3); }
+.btn-walk::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 2px solid var(--acc2); opacity: 0; animation: ring 2.4s ease-out infinite; pointer-events: none; }
+@keyframes ring { 0% { opacity: .8; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.18, 1.45); } }
+.btn-walk .t-sm { display: none; }
+.btn-lg { padding: 15px 30px; font-size: 16.5px; }
+.btn-lg svg { width: 22px; height: 22px; }
+.is-touch .only-mouse, .is-mouse .only-touch { display: none !important; }
+
+/* فصل التجوّل */
+.chap-walk { justify-content: center; text-align: center; }
+.walk-card { border-color: rgba(255, 138, 60, .45); box-shadow: 0 30px 80px -30px #000, 0 0 0 1px rgba(255, 77, 46, .12) inset; }
+.walk-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0 20px; counter-reset: s; }
+.walk-steps li { display: grid; justify-items: center; gap: 2px; padding: 14px 10px 12px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, .04); }
+.walk-steps span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.walk-steps b { font-weight: 600; font-size: 14.5px; }
+.walk-steps small { font-size: 12.5px; color: var(--dim); line-height: 1.6; }
+
+/* وضع الاستكشاف: الأدوات فوق المشهد */
+.bg3d .mapui-walk { position: relative; }
+.story .bg3d .mapui-walk::after { display: none; }
+
+/* وضع التجوّل: واجهة نظيفة — زر خروج واحد، عصا تحكم، خريطة مصغّرة، وشريط المناطق */
+.walking .exit { display: none; }
+.walking .bg3d .mapui-steps, .walking .bg3d .mapui-themes, .walking .bg3d .mapui-tools { display: none; }
+.walking .bg3d .mapui-right { justify-content: center; flex: 1; }
+.walking .bg3d .mapui-top { justify-content: center; }
+.walking .bg3d .mapui-walk { min-height: 46px; padding: 0 22px; font-size: 15px !important; box-shadow: 0 10px 30px rgba(0, 0, 0, .5); }
+.walking .bg3d .mapui-hint { top: 128px; inset-inline: 0; margin-inline: auto; width: fit-content; text-align: center; }
+.walking.is-touch .bg3d .mapui-hint { display: none; }
+.bg3d .f3d-mini { bottom: 76px; }
+.bg3d .f3d-hud::after { content: 'اضغط على الخريطة للانتقال'; position: absolute; right: 14px; bottom: 206px; width: 210px; text-align: center; font: 600 11.5px var(--body); color: #fff; text-shadow: 0 1px 6px #000; direction: rtl; }
+.bg3d .f3d-joy { bottom: 76px; }
+.bg3d .f3d-joy::after { content: 'امشِ'; position: absolute; left: 0; right: 0; top: -24px; text-align: center; font: 600 12px var(--body); color: #fff; text-shadow: 0 1px 6px #000; }
+
+/* شرح التحكم */
+.coach { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 20px; background: rgba(6, 6, 8, .55); opacity: 0; transition: opacity .35s; }
+.coach.on { opacity: 1; }
+.coach[hidden] { display: none; }
+.is-mouse .coach { pointer-events: none; background: transparent; }
+.coach-box { width: min(420px, 100%); padding: 24px 24px 22px; border-radius: var(--r); background: rgba(14, 13, 16, .9); border: 1px solid rgba(255, 138, 60, .45); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); box-shadow: 0 30px 80px -20px #000; text-align: center; transform: translateY(16px) scale(.97); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+.coach.on .coach-box { transform: none; }
+.coach h3 { font: 700 22px/1.4 var(--body); margin-bottom: 14px; }
+.coach-list { display: grid; gap: 8px; text-align: start; margin-bottom: 18px; }
+.coach-list li { display: grid; grid-template-columns: 64px 1fr; grid-template-rows: auto auto; column-gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, .04); }
+.coach-list b { font-weight: 600; font-size: 15px; }
+.coach-list span { grid-column: 2; font-size: 13px; color: var(--dim); line-height: 1.6; }
+.ci { grid-row: 1 / span 2; display: flex; align-items: center; justify-content: center; gap: 2px; height: 44px; border-radius: 12px; background: rgba(255, 77, 46, .14); position: relative; font-style: normal; direction: ltr; }
+.ci-joy::before { content: ''; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .6); }
+.ci-joy::after { content: ''; position: absolute; width: 13px; height: 13px; border-radius: 50%; background: #fff; transform: translate(5px, -4px); }
+.ci-drag::before { content: '↔'; font-size: 22px; color: #fff; }
+.ci-mouse::before { content: ''; width: 18px; height: 26px; border: 1.5px solid #fff; border-radius: 9px; }
+.ci-map::before { content: ''; width: 32px; height: 22px; border-radius: 5px; border: 1.5px solid #fff; background: linear-gradient(90deg, transparent 45%, rgba(255, 255, 255, .5) 45% 55%, transparent 55%); }
+.ci-map::after { content: ''; position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 8px var(--acc); transform: translate(6px, 2px); }
+.ci kbd { font: 600 10px var(--body); min-width: 15px; padding: 1px 3px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, .55); color: #fff; }
+.coach-touch, .coach-mouse { display: none; }
+.is-touch .coach-touch, .is-mouse .coach-mouse { display: grid; }
+.is-mouse #coachGo { display: none; }
+.is-mouse .coach-box::after { content: 'اضغط على المشهد للبدء'; display: block; font-size: 13px; color: var(--acc2); font-weight: 600; }
 
 @media (max-width: 1000px) {
   .exp-grid { grid-template-columns: repeat(2, 1fr); } .pkg-grid { grid-template-columns: repeat(2, 1fr); } .why-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 1240px) {
   .bar-chapter { display: none; }
 }
 @media (max-width: 760px) {
@@ -217,6 +286,33 @@ p { color: #cfcdd4; }
   .pkg-grid, .why-grid, .gov, .book-grid, .book { grid-template-columns: 1fr; }
   .pkg[data-tier=PLAT] { flex-direction: column; } .pkg[data-tier=PLAT] .pkg-media { min-height: 0; aspect-ratio: 16/9; flex: none; } .pkg[data-tier=PLAT] .pkg-perks { grid-template-columns: 1fr; } .pkg[data-tier=PLAT] .pkg-title { font-size: 26px; }
   .cd { min-width: 60px; } .cd b { font-size: 22px; }
-  .bg3d .mapui-top { inset: 64px 10px auto 10px; }
+  .hero-card .hero-cta { justify-content: center; } .hero-card .hero-cta .btn-glass { display: none; }
+  .bar-logo img { height: 38px; }
+  .bar-actions .btn-walk .t-lg { display: none; } .bar-actions .btn-walk .t-sm { display: inline; } .bar-actions .btn-walk { padding: 9px 14px; }
+  .walk-steps { grid-template-columns: 1fr; gap: 6px; margin: 14px 0 16px; }
+  .walk-steps li { grid-template-columns: 30px 1fr; justify-items: start; column-gap: 10px; text-align: start; padding: 8px 12px; }
+  .walk-steps span { grid-row: 1 / span 2; margin: 0; }
+  .btn-lg { width: 100%; padding: 14px 20px; font-size: 15.5px; }
+  .walk-card > p:not(.step) { display: none; }
+  .card .hero-cta .btn { flex: 1 1 auto; }
+
+  /* أدوات المخطط على الموبايل: صفّان ثابتان أعلى المشهد، والفلاتر والمناطق أسفله */
+  .bg3d .mapui-top { inset: 62px 10px auto 10px; gap: 8px; }
+  .bg3d .mapui-right { flex-wrap: nowrap; gap: 6px; }
+  .bg3d .mapui-walk { flex: 1 1 0; min-width: 0; justify-content: center; padding: 0 10px; }
+  .bg3d .mapui-theme { padding: 8px 7px; }
+  .bg3d .mapui-tools .mapui-tool:nth-child(n+2) { display: none; }
+  .bg3d .mapui-filters { top: auto; bottom: 64px; }
+  .bg3d .mapui-card { bottom: 118px; }
+  .walking .bg3d .mapui-walk { flex: 0 1 auto; }
+  .bg3d .f3d-mini { width: 132px; right: 10px; bottom: 66px; }
+  .bg3d .f3d-hud::after { right: 10px; width: 132px; bottom: 150px; font-size: 10.5px; }
+  .bg3d .f3d-joy { left: 14px; bottom: 74px; width: 104px; height: 104px; }
+  .coach { align-items: end; padding: 14px 12px 24px; }
+  .coach-box { padding: 20px 18px 18px; }
+  .coach h3 { font-size: 19px; margin-bottom: 10px; }
+}
+@media (max-width: 380px) {
+  .bar-actions #exploreBtn { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; } [data-reveal], .card { opacity: 1; transform: none; } }

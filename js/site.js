@@ -130,7 +130,9 @@
       }
       if (ui || !mapEl || !window.MapUI) return ui; ui = window.MapUI.mount(mapEl, Object.assign({ theme: mapEl.getAttribute('data-theme') || 'sunset', stage: +(mapEl.getAttribute('data-stage') || 2), embedded: true }, o.map || {})); api.ui = ui; if (o.onMap) o.onMap(ui); return ui; }
     if (mapEl) {
-      if (o.eagerMap || !('IntersectionObserver' in window)) mountMap();
+      // نؤجل بناء المشهد لما بعد أول رسم للصفحة حتى يظهر المحتوى فورًا
+      if (o.eagerMap) requestAnimationFrame(function () { setTimeout(mountMap, 30); });
+      else if (!('IntersectionObserver' in window)) mountMap();
       else { var mo = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { mo.disconnect(); mountMap(); } }, { rootMargin: '500px' }); mo.observe(mapEl); }
     }
     document.addEventListener('click', function (ev) {

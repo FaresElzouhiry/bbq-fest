@@ -23,10 +23,31 @@
   <p class="bar-chapter"><span id="chapNo">00</span><b id="chapName">BBQ FEST</b></p>
   <div class="bar-actions">
     <button type="button" class="btn btn-glass" id="exploreBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg><span>استكشف بحرية</span></button>
+    <button type="button" class="btn btn-walk" data-walk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="2"/><path d="M13 8l-3 4 3 3v6M10 12l-3 1M13 8l4 3 2-1M10 16l-2 5"/></svg><span class="t-lg">تجوّل داخل المهرجان</span><span class="t-sm">تجوّل</span></button>
     <a class="btn btn-main" href="#booking">احجز</a>
   </div>
 </header>
 <button type="button" class="exit" id="exitBtn">← العودة للجولة</button>
+
+<!-- شرح التحكم عند دخول وضع التجوّل -->
+<div class="coach" id="coach" hidden>
+  <div class="coach-box">
+    <p class="step">وضع التجوّل</p>
+    <h3>أنت الآن داخل المهرجان</h3>
+    <ul class="coach-list coach-touch">
+      <li><i class="ci ci-joy"></i><b>المشي</b><span>حرّك عصا التحكم في أسفل الشاشة</span></li>
+      <li><i class="ci ci-drag"></i><b>النظر حولك</b><span>اسحب بإصبعك في أي مكان على المشهد</span></li>
+      <li><i class="ci ci-map"></i><b>الانتقال السريع</b><span>اضغط على أي نقطة في الخريطة المصغّرة أو اختر منطقة من الشريط السفلي</span></li>
+    </ul>
+    <ul class="coach-list coach-mouse">
+      <li><i class="ci"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></i><b>المشي</b><span>أو الأسهم · Shift للجري</span></li>
+      <li><i class="ci ci-mouse"></i><b>النظر حولك</b><span>اضغط على المشهد ثم حرّك الماوس</span></li>
+      <li><i class="ci ci-map"></i><b>الانتقال السريع</b><span>الخريطة المصغّرة أو شريط المناطق بالأسفل</span></li>
+      <li><i class="ci"><kbd>Esc</kbd></i><b>الخروج</b><span>مرة لتحرير الماوس، ومرة للخروج</span></li>
+    </ul>
+    <button type="button" class="btn btn-main" id="coachGo">ابدأ التجوّل</button>
+  </div>
+</div>
 <nav class="rail" id="rail" aria-label="فصول الجولة"></nav>
 
 <main class="chapters" id="top">
@@ -44,6 +65,7 @@
           <div class="hero-count" data-render="countdown"></div>
           <div class="hero-cta">
             <a class="btn btn-main" href="#c-land">ابدأ الجولة ↓</a>
+            <button type="button" class="btn btn-walk" data-walk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="2"/><path d="M13 8l-3 4 3 3v6M10 12l-3 1M13 8l4 3 2-1M10 16l-2 5"/></svg>تجوّل داخل المهرجان</button>
             <a class="btn btn-glass" href="#packages">الباقات والأسعار</a>
           </div>
         </div>
@@ -161,12 +183,26 @@
     </article>
   </section>
 
+  <section class="chap chap-walk" data-stage="2" data-theme="sunset" data-cam="gate" data-title="تجوّل داخل المهرجان">
+    <article class="card wide walk-card">
+      <p class="step">جرّبها بنفسك</p>
+      <h2>امشِ داخل المهرجان كأنك زائر</h2>
+      <p>انزل على أرض المهرجان بمنظور الزائر: ادخل من البوابة، امشِ بين الأجنحة، وشاهد مكان علامتك من عيون الجمهور.</p>
+      <ol class="walk-steps">
+        <li><span>١</span><b>اضغط «ابدأ التجوّل»</b><small>تنزل الكاميرا عند بوابة الدخول</small></li>
+        <li><span>٢</span><b>امشِ وانظر حولك</b><small class="only-touch">عصا التحكم للمشي · اسحب الشاشة للنظر</small><small class="only-mouse">W A S D للمشي · الماوس للنظر</small></li>
+        <li><span>٣</span><b>انتقل بين المناطق</b><small>من الخريطة المصغّرة أو شريط المناطق</small></li>
+      </ol>
+      <button type="button" class="btn btn-main btn-lg" data-walk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="2"/><path d="M13 8l-3 4 3 3v6M10 12l-3 1M13 8l4 3 2-1M10 16l-2 5"/></svg>ابدأ التجوّل داخل المهرجان</button>
+    </article>
+  </section>
+
   <section class="chap chap-end" data-stage="2" data-theme="sunset" data-cam="home" data-title="اختر مكانك">
     <article class="card wide">
       <p class="step">الخطوة التالية</p>
       <h2>جاهز تختار مكان علامتك؟</h2>
-      <p>تجوّل في المخطط بحرية، اضغط على أي جناح لمعرفة تفاصيله، واطلب حجزه مباشرة.</p>
-      <div class="hero-cta"><button type="button" class="btn btn-main" data-explore>استكشف المخطط بحرية</button><a class="btn btn-glass" href="#packages">شاهد كل الباقات</a></div>
+      <p>استكشف المخطط بحرية أو تجوّل بداخله، اضغط على أي جناح لمعرفة تفاصيله، واطلب حجزه مباشرة.</p>
+      <div class="hero-cta"><button type="button" class="btn btn-main" data-explore>استكشف المخطط بحرية</button><button type="button" class="btn btn-walk" data-walk>تجوّل داخل المهرجان</button><a class="btn btn-glass" href="#packages">شاهد كل الباقات</a></div>
     </article>
   </section>
 </main>
@@ -216,7 +252,7 @@
       <p class="foot-slogan">WE GRILL . YOU CHILL</p>
       <div class="foot-via"><span>إدارة الرعايات والشراكات</span><img src="assets/via-white.png" alt="VIA"><a href="https://via-saudi.com" target="_blank" rel="noopener">via-saudi.com</a></div>
     </div>
-    <p class="foot-copy">© BBQ FEST · <a href="index.html">تغيير التصميم</a></p>
+    <p class="foot-copy">© BBQ FEST </p>
   </footer>
 </div>
 
@@ -243,10 +279,15 @@
     b.addEventListener('click', function () { c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }); rail.appendChild(b);
   });
 
+  // خلفية للشريط العلوي بعد انتهاء الجولة حتى لا يتداخل مع المحتوى
+  var chapsEl = $('.chapters');
+  function onScroll() { body.classList.toggle('past', chapsEl.getBoundingClientRect().bottom < 70); }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
   function shiftFor(c) {
     if (innerWidth < 760) return [0, c.classList.contains('chap-hero') ? 0.14 : 0.2];
     if (c.classList.contains('chap-hero')) return [0, 0.15];
-    if (c.classList.contains('chap-end')) return [0, 0];
+    if (c.classList.contains('chap-end') || c.classList.contains('chap-walk')) return [0, 0];
     return [c.getAttribute('data-side') === 'end' ? -0.15 : 0.15, 0];
   }
   function apply(c) {
@@ -274,9 +315,25 @@
     if (on) { window.scrollTo(0, Math.min(window.scrollY, $('.chapters').offsetHeight - innerHeight)); f3d.setStage(2); f3d.filter((o && o.filter) || null); f3d.flyTo((o && o.zone) || 'home', 1.6); }
     else if (active) { var c = active; active = null; activate(c); }
   }
+  // وضع التجوّل: يدخل الاستكشاف ثم يمشي بالكاميرا من البوابة، مع شرح سريع للتحكم
+  var touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || ('ontouchstart' in window);
+  body.classList.add(touch ? 'is-touch' : 'is-mouse');
+  var coach = $('#coach'), walkFromStory = false, coachTimer = null;
+  function hideCoach() { clearTimeout(coachTimer); coach.classList.remove('on'); setTimeout(function () { if (!coach.classList.contains('on')) coach.hidden = true; }, 350); }
+  function showCoach() { coach.hidden = false; requestAnimationFrame(function () { coach.classList.add('on'); }); clearTimeout(coachTimer); if (!touch) coachTimer = setTimeout(hideCoach, 9000); }
+  function startWalk() {
+    if (!f3d) return;
+    walkFromStory = !exploring; if (!exploring) explore(true);
+    f3d.setMode('walk'); showCoach();
+  }
+  $('#coachGo').addEventListener('click', hideCoach);
+  coach.addEventListener('click', function (ev) { if (ev.target === coach) hideCoach(); });
+  document.addEventListener('keydown', function (ev) { if (!coach.hidden && /^(Key[WASD]|Arrow)/.test(ev.code)) hideCoach(); });
+
   $('#exploreBtn').addEventListener('click', function () { explore(true); });
-  $('#exitBtn').addEventListener('click', function () { explore(false); });
+  $('#exitBtn').addEventListener('click', function () { if (f3d && f3d.getMode() === 'walk') f3d.setMode('orbit'); explore(false); });
   document.addEventListener('click', function (ev) {
+    var w = ev.target.closest('[data-walk]'); if (w) { ev.preventDefault(); startWalk(); return; }
     var x = ev.target.closest('[data-explore]'); if (x) { explore(true); return; }
     var m = ev.target.closest('.pkg-map'); if (m) { ev.preventDefault(); ev.stopPropagation(); explore(true, { zone: m.getAttribute('data-zone'), filter: m.getAttribute('data-filter') }); }
   }, true);
@@ -284,11 +341,15 @@
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && exploring) explore(false); });
 
   BBQSite.init({
-    model: 'model-3.html', eagerMap: true,
+    model: 'index.html', eagerMap: true,
     map: { embedded: true, intro: true, autoRotate: true, orbitZones: true },
     onMap: function (ui) {
       if (!ui) { body.classList.add('no3d'); return; }
       f3d = ui.f3d; f3d.setZoomLock(true); f3d.setLabels(false);
+      f3d.on('mode', function (m) {
+        body.classList.toggle('walking', m === 'walk');
+        if (m !== 'walk') { hideCoach(); if (walkFromStory && exploring) { walkFromStory = false; explore(false); } }
+      });
       // أوقف الرسم عندما يغطي المحتوى المشهد
       new IntersectionObserver(function (es) { if (!exploring) f3d.setPaused(!es[0].isIntersecting); }).observe($('.chapters'));
       if (active) apply(active);
