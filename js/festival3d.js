@@ -40,6 +40,8 @@
       return null;
     }
     var lowEnd = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || Math.min(window.screen.width, window.screen.height) < 700;
+    var lite = lowEnd || opts.lite === true; if (opts.lite === false) lite = false;
+    var LQ = { dprMax: lite ? 1.25 : 2, dprMin: lite ? 0.75 : 1, shadow: lite ? 1024 : 4096, terrain: lite ? 80 : 230, skySeg: lite ? [24, 12] : [48, 24], aniso: lite ? 2 : 8, villaKeep: lite ? 3 : 1, people: lite ? 0.45 : 1, lights: lite ? 0 : 9, fps: lite ? 30 : 0, crowdEvery: 1, shadowEvery: lite ? 3 : 1 };
     var PI = Math.PI, H = PI / 2;
 
     // ---------- أدوات هندسية ----------
@@ -70,9 +72,9 @@
     function cat() { return [].concat.apply([], arguments); }
     function std(color, o) { return new T.MeshStandardMaterial(Object.assign({ color: color, roughness: 0.85, metalness: 0.02 }, o || {})); }
     var textTextures = [];
-    function canvasTex(w, h, draw) { var c = document.createElement('canvas'); c.width = w; c.height = h; var tex = new T.CanvasTexture(c); tex.encoding = T.sRGBEncoding; tex.anisotropy = 4; tex.userData = { draw: function () { var x = c.getContext('2d'); x.clearRect(0, 0, w, h); draw(x, w, h); tex.needsUpdate = true; } }; tex.userData.draw(); textTextures.push(tex); return tex; }
+    function canvasTex(w, h, draw) { var c = document.createElement('canvas'); c.width = w; c.height = h; var tex = new T.CanvasTexture(c); tex.encoding = T.sRGBEncoding; tex.anisotropy = Math.min(4, LQ.aniso); tex.userData = { draw: function () { var x = c.getContext('2d'); x.clearRect(0, 0, w, h); draw(x, w, h); tex.needsUpdate = true; } }; tex.userData.draw(); textTextures.push(tex); return tex; }
     // خامة ثابتة مرسومة على كانفاس (قابلة للتكرار)
-    function tileTex(size, draw, rep) { var c = document.createElement('canvas'); c.width = c.height = size; draw(c.getContext('2d'), size); var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.encoding = T.sRGBEncoding; t.anisotropy = 8; if (rep) t.repeat.set(rep, rep); return t; }
+    function tileTex(size, draw, rep) { var c = document.createElement('canvas'); c.width = c.height = size; draw(c.getContext('2d'), size); var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.encoding = T.sRGBEncoding; t.anisotropy = LQ.aniso; if (rep) t.repeat.set(rep, rep); return t; }
     // خريطة نورمال من دالة ارتفاع دورية fn(u,v) ∈ [0,1]
     function normalTex(size, fn, strength, rep) {
       var h = new Float32Array(size * size), x, y; for (y = 0; y < size; y++) for (x = 0; x < size; x++) h[y * size + x] = fn(x / size, y / size);
@@ -82,17 +84,17 @@
         var nx = (l - r) * strength, ny = (dn - up) * strength, len = Math.sqrt(nx * nx + ny * ny + 1), i = (y * size + x) * 4;
         d[i] = (nx / len * 0.5 + 0.5) * 255; d[i + 1] = (ny / len * 0.5 + 0.5) * 255; d[i + 2] = (1 / len * 0.5 + 0.5) * 255; d[i + 3] = 255;
       }
-      ctx.putImageData(img, 0, 0); var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 8; if (rep) t.repeat.set(rep, rep); return t;
+      ctx.putImageData(img, 0, 0); var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = LQ.aniso; if (rep) t.repeat.set(rep, rep); return t;
     }
 
     // ---------- المشهد ----------
     var W = container.clientWidth || 800, Hh = container.clientHeight || 500;
-    var renderer = new T.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lowEnd ? 1.5 : 2));
+    var renderer = new T.WebGLRenderer({ antialias: !lite, powerPreference: lite ? 'default' : 'high-performance' });
+    var dpr = Math.min(window.devicePixelRatio || 1, LQ.dprMax); renderer.setPixelRatio(dpr);
     renderer.setSize(W, Hh);
     renderer.outputEncoding = T.sRGBEncoding;
     renderer.toneMapping = T.ACESFilmicToneMapping;
-    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = lite ? T.PCFShadowMap : T.PCFSoftShadowMap; if (lite) renderer.shadowMap.autoUpdate = false;
     container.classList.add('f3d'); if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
     container.appendChild(renderer.domElement);
     renderer.domElement.style.display = 'block';
@@ -103,7 +105,7 @@
 
     var hemi = new T.HemisphereLight(0xffffff, 0x886644, 0.12); scene.add(hemi);
     var sun = new T.DirectionalLight(0xffffff, 1.0); scene.add(sun); scene.add(sun.target);
-    sun.castShadow = true; var SM = lowEnd ? 2048 : 4096; sun.shadow.mapSize.set(SM, SM);
+    sun.castShadow = true; var SM = LQ.shadow; sun.shadow.mapSize.set(SM, SM);
     var sc = sun.shadow.camera; sc.near = 20; sc.far = 700; sun.shadow.bias = -0.00035; sun.shadow.normalBias = 0.04;
     var sunDir = new T.Vector3(0.5, 0.7, 0.4), shadowHalf = 0;
 
@@ -111,13 +113,13 @@
     var skyU = { uTop: { value: new T.Color() }, uMid: { value: new T.Color() }, uBot: { value: new T.Color() }, uGround: { value: new T.Color() }, uSunDir: { value: new T.Vector3(0, 1, 0) }, uSunCol: { value: new T.Color() },
       uCloudLit: { value: new T.Color() }, uCloudDark: { value: new T.Color() }, uSunAmt: { value: 1 }, uCloud: { value: 0.5 }, uTime: { value: 0 }, uGain: { value: 1 } };
     var skyMat = new T.ShaderMaterial({
-      uniforms: skyU, side: T.BackSide, depthWrite: false, fog: false,
+      defines: { OCT: lite ? 3 : 5 }, uniforms: skyU, side: T.BackSide, depthWrite: false, fog: false,
       vertexShader: 'varying vec3 vDir; void main(){ vDir = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: [
         'uniform vec3 uTop,uMid,uBot,uGround,uSunDir,uSunCol,uCloudLit,uCloudDark; uniform float uSunAmt,uCloud,uTime,uGain; varying vec3 vDir;',
         'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }',
         'float noise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f); return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x), mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x), f.y); }',
-        'float fbm(vec2 p){ float s=0., a=.5; for(int i=0;i<5;i++){ s+=a*noise(p); p*=2.03; a*=.5; } return s; }',
+        'float fbm(vec2 p){ float s=0., a=.5; for(int i=0;i<OCT;i++){ s+=a*noise(p); p*=2.03; a*=.5; } return s; }',
         'void main(){ vec3 d=normalize(vDir); float h=d.y;',
         ' vec3 col=mix(uBot,uMid,smoothstep(0.,.24,h)); col=mix(col,uTop,smoothstep(.16,.85,h));',
         ' float sd=max(dot(d,uSunDir),0.);',
@@ -127,7 +129,7 @@
         ' else { col=mix(uBot,uGround,smoothstep(0.,-.1,h)); }',
         ' gl_FragColor=vec4(col*uGain,1.); }'].join('\n')
     });
-    var sky = new T.Mesh(new T.SphereGeometry(3600, 48, 24), skyMat); sky.renderOrder = -10; sky.frustumCulled = false; scene.add(sky);
+    var sky = new T.Mesh(new T.SphereGeometry(3600, LQ.skySeg[0], LQ.skySeg[1]), skyMat); sky.renderOrder = -10; sky.frustumCulled = false; scene.add(sky);
     // بيئة الانعكاسات تُولَّد من نفس السماء
     var envScene = new T.Scene(); envScene.add(new T.Mesh(new T.SphereGeometry(100, 32, 16), skyMat));
     var pmrem = new T.PMREMGenerator(renderer), envRT = null, envDirty = true;
@@ -173,7 +175,7 @@
     // ---------- الأرض (فاضية) ----------
     var sandMat = std('#d9c08f', { map: TX.sand, normalMap: TX.sandN, normalScale: new T.Vector2(0.9, 0.9), roughness: 1, vertexColors: true });
     (function () {
-      var g = new T.PlaneGeometry(4600, 4600, 230, 230); g.rotateX(-H);
+      var g = new T.PlaneGeometry(4600, 4600, LQ.terrain, LQ.terrain); g.rotateX(-H);
       var p = g.attributes.position, col = new Float32Array(p.count * 3);
       for (var i = 0; i < p.count; i++) {
         var x = p.getX(i), z = p.getZ(i), dist = Math.sqrt(x * x + z * z);
@@ -247,7 +249,7 @@
         var lx = ((x - 12) % 96 + 96) % 96, lz = ((z - 8) % 104 + 104) % 104; if (lx < 14 || lx > 82 || lz < 15 || lz > 89) continue;
         if (r() < 0.12) continue; spots.push([x, z]);
       }
-      if (lowEnd) spots = spots.filter(function (s, k) { return k % 2 === 0; });
+      if (LQ.villaKeep > 1) spots = spots.filter(function (s, k) { return k % LQ.villaKeep === 0; });
       var villas = new T.InstancedMesh(merge(body), M.plaster, spots.length), wins = new T.InstancedMesh(merge(win), new T.MeshBasicMaterial({ color: 0xffc77a, transparent: true, opacity: 0, toneMapped: false }), spots.length), dm = new T.Object3D();
       var tones = ['#e8dcc4', '#dccdb0', '#efe6d6', '#d9c7a6', '#e3d5bd', '#cfc0a4'];
       spots.forEach(function (s, k) { dm.position.set(s[0], 0, s[1]); dm.rotation.y = Math.floor(r() * 4) * H; var q = 0.92 + r() * 0.16; dm.scale.set(q, 0.9 + r() * 0.25, q); dm.updateMatrix(); villas.setMatrixAt(k, dm.matrix); villas.setColorAt(k, new T.Color(tones[Math.floor(r() * tones.length)])); if (r() < 0.45) dm.scale.set(0.001, 0.001, 0.001); dm.updateMatrix(); wins.setMatrixAt(k, dm.matrix); });
@@ -660,7 +662,7 @@
       function free(x, z) { for (var i = 0; i < D.booths.length; i++) { var b = D.booths[i], dx = x - b.x, dz = z - b.z, co = Math.cos(b.rot), si = Math.sin(b.rot), lx = dx * co - dz * si, lz = dx * si + dz * co; if (Math.abs(lx) < b.w / 2 + 0.8 && Math.abs(lz) < b.d / 2 + 0.8) return false; } return true; }
       var people = [];
       areas.forEach(function (a) {
-        var n = lowEnd ? Math.ceil(a[4] * 0.6) : a[4], c = 0, guard = 0;
+        var n = Math.ceil(a[4] * LQ.people), c = 0, guard = 0;
         function rp() { return [D.mx(a[0] + r() * (a[1] - a[0])), D.mz(a[2] + r() * (a[3] - a[2]))]; }
         while (c < n && guard++ < 900) { var p = rp(); if (!free(p[0], p[1])) continue; var q = null; if (r() < 0.45) { for (var k = 0; k < 8 && !q; k++) { var cand = rp(); if (free(cand[0], cand[1]) && free((p[0] + cand[0]) / 2, (p[1] + cand[1]) / 2)) q = cand; } } people.push({ a: p, b: q, s: 0.9 + r() * 0.2, kind: r() < 0.42 ? 0 : (r() < 0.6 ? 1 : 2), sp: 0.7 + r() * 0.6, ph: r() * 100, yaw: r() * 6.28 }); c++; }
       });
@@ -713,7 +715,7 @@
 
     // إضاءة ليلية حقيقية
     var nightLights = [];
-    [[500, 666, 9], [430, 660, 7], [404, 520, 8], [190, 655, 8], [140, 460, 7], [268, 484, 7], [600, 452, 7], [800, 452, 7], [1000, 452, 7]].slice(0, lowEnd ? 4 : 9).forEach(function (p) { var l = new T.PointLight(0xffb070, 0, 70, 1.5); l.position.set(D.mx(p[0]), p[2], D.mz(p[1])); scene.add(l); nightLights.push(l); });
+    [[500, 666, 9], [430, 660, 7], [404, 520, 8], [190, 655, 8], [140, 460, 7], [268, 484, 7], [600, 452, 7], [800, 452, 7], [1000, 452, 7]].slice(0, LQ.lights).forEach(function (p) { var l = new T.PointLight(0xffb070, 0, 70, 1.5); l.position.set(D.mx(p[0]), p[2], D.mz(p[1])); scene.add(l); nightLights.push(l); });
 
     // ---------- التحديد ----------
     var hoverBox = new T.Mesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, depthWrite: false })); hoverBox.visible = false; hoverBox.renderOrder = 10; scene.add(hoverBox);
@@ -957,10 +959,27 @@
     // ---------- الحلقة ----------
     function now() { return performance.now(); }
     var running = true, visible = true, paused = false, raf = null, clock0 = now(), lastT = now(), dmW = new T.Object3D();
-    function frame() {
+    var frameN = 0, lastDraw = 0, perf = { t0: 0, n: 0, slow: 0, fast: 0 };
+    function adaptQuality(t) {
+      if (!perf.t0) { perf.t0 = t; perf.n = 0; return; } perf.n++;
+      if (t - perf.t0 < 2000) return;
+      var fps = perf.n * 1000 / (t - perf.t0), goal = LQ.fps ? LQ.fps * 0.85 : 45; perf.t0 = t; perf.n = 0;
+      if (fps < goal) { perf.slow++; perf.fast = 0; } else if (fps > (LQ.fps ? LQ.fps * 0.97 : 57)) { perf.fast++; perf.slow = 0; } else { perf.slow = perf.fast = 0; }
+      var nd = dpr;
+      if (perf.slow >= 1 && dpr > LQ.dprMin) nd = Math.max(LQ.dprMin, +(dpr - 0.25).toFixed(2));
+      else if (perf.fast >= 3 && dpr < Math.min(window.devicePixelRatio || 1, LQ.dprMax)) nd = Math.min(LQ.dprMax, +(dpr + 0.25).toFixed(2));
+      if (nd !== dpr) { dpr = nd; renderer.setPixelRatio(dpr); resize(); perf.slow = perf.fast = 0; }
+    }
+    function frame(t) {
       raf = null; if (!running) return;
-      if (visible && !paused && !document.hidden) { update(); renderer.render(scene, camera); }
-      raf = requestAnimationFrame(frame);
+      raf = requestAnimationFrame(frame); t = t || now();
+      if (!(visible && !paused && !document.hidden)) { perf.t0 = 0; return; }
+      if (LQ.fps && t - lastDraw < 1000 / LQ.fps - 2) return;
+      lastDraw = t; frameN++;
+      update();
+      if (lite && (frameN % LQ.shadowEvery === 0 || frameN < 4)) renderer.shadowMap.needsUpdate = true;
+      renderer.render(scene, camera);
+      adaptQuality(t);
     }
     function update() {
       var t = now(), dt = Math.min(0.06, (t - lastT) / 1000), i, k, any = false; lastT = t;
@@ -992,7 +1011,7 @@
       if (selected) { pin.position.y = selected.t.h * (selected.flat ? 0.12 : 1) + 4 + Math.sin(s * 3) * 0.6; pin.rotation.y = s * 1.5; selFill.material.opacity = 0.2 + Math.sin(s * 4) * 0.08; }
       if (builtP > 0.9) {
         // الزوار المتحركون
-        for (i = 0; i < crowd.length; i++) {
+        for (i = 0; i < crowd.length && frameN % LQ.crowdEvery === 0; i++) {
           var cg = crowd[i]; if (!cg.list.length) continue;
           for (k = 0; k < cg.list.length; k++) { var pr = cg.list[k], ax = pr.a[0], az = pr.a[1], dx = pr.b[0] - ax, dz = pr.b[1] - az, ln = Math.sqrt(dx * dx + dz * dz) || 1, u = (s * 1.05 * pr.sp / ln + pr.ph) % 2, back = u > 1; if (back) u = 2 - u; dmW.position.set(ax + dx * u, 0.08 + Math.abs(Math.sin(s * 7 * pr.sp + pr.ph)) * 0.03, az + dz * u); dmW.rotation.y = Math.atan2(dx, dz) + (back ? PI : 0); dmW.scale.set(pr.s, pr.s, pr.s); dmW.updateMatrix(); cg.mesh.setMatrixAt(pr.i, dmW.matrix); }
           cg.mesh.instanceMatrix.needsUpdate = true;
@@ -1043,6 +1062,7 @@
       setAutoRotate: function (v) { opts.autoRotate = !!v; controls.autoRotate = !!v && mode === 'orbit'; },
       snapshot: function () { renderer.render(scene, camera); return dom.toDataURL('image/png'); },
       dispose: function () { running = false; if (raf) cancelAnimationFrame(raf); if (ro) ro.disconnect(); if (io) io.disconnect(); window.removeEventListener('keydown', onKey); window.removeEventListener('keyup', onKey); window.removeEventListener('blur', onBlur); controls.dispose(); pmrem.dispose(); renderer.dispose(); [dom, tip, hud].forEach(function (n) { if (n && n.parentNode) n.parentNode.removeChild(n); }); },
+      quality: function () { return { lite: lite, dpr: dpr, fpsCap: LQ.fps, shadow: SM }; },
       three: { scene: scene, camera: camera, renderer: renderer, controls: controls }
     };
     return api;

@@ -181,7 +181,7 @@
   function fmt(n) { return Number(n).toLocaleString('en-US'); }
 
   window.BBQ = {
-    map3dSoon: true, // اجعلها false لإظهار المخطط ثلاثي الأبعاد داخل المواقع
+    map3dSoon: false, // اجعلها false لإظهار المخطط ثلاثي الأبعاد داخل المواقع
     event: event, types: types, booths: booths, site: site, zones: zones, packages: packages,
     experiences: experiences, program: program, categories: categories, audience: audience,
     fmt: fmt, PX: PX, mx: mx, mz: mz,
